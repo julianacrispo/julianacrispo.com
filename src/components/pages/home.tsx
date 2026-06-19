@@ -337,7 +337,7 @@ function Hero() {
           <DottedWord word="SCALE" />
         </div>
         <p className="mb-6 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-text-secondary">
-          Fractional CRO &middot; GTM leadership &amp; investing
+          Fractional CRO &middot; GTM leadership
         </p>
         <motion.h1
           initial={{ opacity: 0, y: 18 }}
