@@ -659,14 +659,16 @@ function FinalCta() {
             Ready to scale how you sell?
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg font-medium text-white/85">
-            Tell me where your sales motion is stuck. We&apos;ll map the fastest
-            path to repeatable revenue on a free strategy call.
+            Book a 1-hour strategy call for $1,000. We&apos;ll pinpoint where
+            your sales motion is stuck and map the fastest path to repeatable
+            revenue — you&apos;ll leave with a plan whether or not we work
+            together.
           </p>
           <a
             href="mailto:hello@julianacrispo.com"
             className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-extrabold text-ploy-cobalt transition-colors hover:bg-white/90"
           >
-            Book a strategy call <ArrowRight className="h-4 w-4" />
+            Book a strategy call — $1K <ArrowRight className="h-4 w-4" />
           </a>
         </div>
       </div>
