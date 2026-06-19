@@ -19,19 +19,21 @@ import { submitForm } from "@/lib/ploy-forms/submit-form";
  * @ployComponentPattern landing
  * @ployComponentStatus stable
  * @ployComponentDescription Homepage for Juliana Crispo, a Fractional CRO doing GTM leadership
- * for early-stage founders. DARK SYNTHWAVE direction: deep indigo night base (#0F0A24) with
- * panel cards (#1B1540), subtle light borders, deep offset shadows, and a perspective grid
- * floor. DISCIPLINED ACCENTS: hot pink (#FF2D8F) is reserved ONLY for CTA buttons (with a soft
- * neon glow); every other accent (eyebrows, stats, dotted lockup, icons, step badges) uses
- * bright blue (#5B86FF / cobalt #2F5BD9) with cyan (#1FC6D6) as a cool support. (An earlier
- * cream/paper version of this page also exists in git history if a light base is preferred.)
- * Composes local sections: Nav (links left, JC brand right, no nav CTA), Hero (dotted SCALE
- * lockup + grid floor), StatBand (3 stats), ServicesRow (Playbook Creation / 3-Month Fractional
- * CRO / Recruiting & Exec Search, eyebrow leads every card), ProcessSection (Diagnose / Build
- * the playbook / Scale it), ResultsSection, TestimonialSection (Embla), FinalCta (request-a-
- * strategy-call form, no public pricing), Footer. Copy in DEFAULT_* consts. No em dashes by
- * request. Dark tokens: ploy-night, ploy-panel, ploy-panel-2, ploy-line, ploy-text-soft,
- * ploy-shadow-deep, ploy-blue-bright in globals.css @theme inline.
+ * for early-stage founders. Coherent 80s synthwave direction (reworked from an earlier
+ * scattered 8-color version that read as visual noise). DISCIPLINED PALETTE: cream paper
+ * (#FBF6E8) + ink (#1B1A14) neutrals, with hot pink (#FF2D8F) and electric blue (#2F5BD9)
+ * as the dominant accents. STRICT RULE: hot pink is reserved ONLY for CTA buttons; every
+ * other accent (eyebrows, stats, icons, dotted lockup, step badges) uses electric blue, with
+ * cyan (#1FC6D6) as a cool support tint. Signature retro devices: hard offset drop shadows
+ * (shadow-[Npx_Npx_0_0_ink]), 2px ink outlines on cards and buttons, a perspective grid floor
+ * (no decorative "sun" \u2014 removed per feedback). Section rhythm:
+ * cream default with ONE dark ink synthwave band (Process) plus a dark CTA, instead of every
+ * section shouting. Composes local sections: Nav, Hero (dotted SCALE lockup + sun + grid),
+ * StatBand, ServicesRow (Playbook Creation / 3-Month Fractional CRO / Recruiting & Exec
+ * Search), ProcessSection (dark band: Diagnose / Build the playbook / Scale with agents and
+ * people), ResultsSection, TestimonialSection (Embla), FinalCta (request-a-strategy-call form),
+ * Footer. Copy in DEFAULT_* consts. No em dashes by request. Palette tokens: ploy-pink,
+ * ploy-cobalt, ploy-cyan, ploy-ink, ploy-cream + *-soft tints in globals.css @theme inline.
  */
 
 const NAV_LINKS = [
@@ -40,17 +42,17 @@ const NAV_LINKS = [
   { label: "Results", href: "#results" },
 ];
 
-const INPUT_CLASS =
-  "w-full rounded-xl border border-ploy-line bg-ploy-night px-4 py-3 text-sm font-semibold text-white placeholder:text-ploy-text-soft/60 focus:outline-none focus:ring-2 focus:ring-ploy-blue-bright";
+const INK = "var(--color-ploy-ink)";
 
-// Shared card frame: dark panel, soft light border, deep offset shadow (retro look on dark).
-const CARD =
-  "rounded-[1.5rem] border border-ploy-line bg-ploy-panel shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]";
+const INPUT_CLASS =
+  "w-full rounded-xl border-2 border-ploy-ink bg-white px-4 py-3 text-sm font-semibold text-ploy-ink placeholder:text-ploy-text-secondary/70 focus:outline-none focus:ring-2 focus:ring-ploy-cobalt";
 
 /* ----------------------------------------------------------------------------
- * Dotted display lockup: signature dot-matrix wordmark (blue + cyan only).
+ * Dotted display lockup: signature "wiggly" dot-matrix wordmark.
+ * Coherent: alternates only pink + electric blue.
  * -------------------------------------------------------------------------- */
 
+// 5-wide x 7-tall dot matrices. 1 = dot, 0 = empty.
 const GLYPHS: Record<string, number[][]> = {
   S: [
     [0, 1, 1, 1, 1],
@@ -99,8 +101,9 @@ const GLYPHS: Record<string, number[][]> = {
   ],
 };
 
+// Blue-family only — pink is reserved strictly for CTAs.
 const LETTER_COLORS = [
-  "var(--color-ploy-blue-bright)",
+  "var(--color-ploy-cobalt)",
   "var(--color-ploy-cyan)",
 ];
 
@@ -137,7 +140,7 @@ function DottedWord({ word = "SCALE" }: { word?: string }) {
                   background: cell ? color : "transparent",
                   boxShadow: cell
                     ? "none"
-                    : "inset 0 0 0 1px rgba(255,255,255,0.06)",
+                    : "inset 0 0 0 1px rgba(27,26,20,0.05)",
                 }}
               />
             ))}
@@ -149,7 +152,7 @@ function DottedWord({ word = "SCALE" }: { word?: string }) {
 }
 
 /* ----------------------------------------------------------------------------
- * Retro perspective grid floor
+ * Retro decorative motifs: perspective grid floor + gradient sun
  * -------------------------------------------------------------------------- */
 
 function GridFloor({ className = "" }: { className?: string }) {
@@ -171,7 +174,7 @@ function GridFloor({ className = "" }: { className?: string }) {
 }
 
 /* ----------------------------------------------------------------------------
- * Growth illustration (on the Fractional CRO card) — blue/cyan on dark
+ * Hand-drawn growth illustration (on the Fractional CRO card) — on-palette
  * -------------------------------------------------------------------------- */
 
 function AdvisoryDrawing() {
@@ -186,25 +189,25 @@ function AdvisoryDrawing() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M28 118 H172" stroke="#c4bce6" strokeWidth="3" />
-      <rect x="40" y="92" width="20" height="26" rx="4" stroke="#5b86ff" strokeWidth="3" />
+      <path d="M28 118 H172" stroke={INK} strokeWidth="3" />
+      <rect x="40" y="92" width="20" height="26" rx="4" stroke="#2f5bd9" strokeWidth="3" />
       <rect x="74" y="74" width="20" height="44" rx="4" stroke="#1fc6d6" strokeWidth="3" />
-      <rect x="108" y="54" width="20" height="64" rx="4" stroke="#5b86ff" strokeWidth="3" />
+      <rect x="108" y="54" width="20" height="64" rx="4" stroke="#2f5bd9" strokeWidth="3" />
       <path
         d="M44 104 C 80 96, 110 70, 158 38"
-        stroke="#5b86ff"
+        stroke="#2f5bd9"
         strokeWidth="3"
         strokeDasharray="2 9"
       />
-      <path d="M150 34 L162 34 L162 46" stroke="#5b86ff" strokeWidth="3" />
-      <path d="M168 72 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#1fc6d6" />
+      <path d="M150 34 L162 34 L162 46" stroke="#2f5bd9" strokeWidth="3" />
+      <path d="M168 72 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#2f5bd9" />
       <circle cx="36" cy="40" r="4" fill="#1fc6d6" />
     </svg>
   );
 }
 
 /* ----------------------------------------------------------------------------
- * Buttons — pink CTA with neon glow; ghost outline
+ * Buttons — retro hard-shadow + ink outline
  * -------------------------------------------------------------------------- */
 
 function PrimaryButton({
@@ -219,7 +222,7 @@ function PrimaryButton({
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full bg-ploy-pink px-7 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-shadow-deep),0_0_26px_rgba(255,45,143,0.4)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-shadow-deep),0_0_30px_rgba(255,45,143,0.55)] ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-ploy-pink px-7 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] ${className}`}
     >
       {children}
     </a>
@@ -238,7 +241,7 @@ function GhostButton({
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full border border-ploy-line bg-white/5 px-7 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-shadow-deep)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:bg-white/10 hover:shadow-[2px_2px_0_0_var(--color-ploy-shadow-deep)] ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-white px-7 py-3.5 text-base font-extrabold text-ploy-ink shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] ${className}`}
     >
       {children}
     </a>
@@ -258,21 +261,21 @@ function Nav() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-bold text-ploy-text-soft transition-colors hover:text-white"
+              className="text-sm font-bold text-ploy-text-secondary transition-colors hover:text-ploy-text-primary"
             >
               {l.label}
             </a>
           ))}
         </nav>
         <a href="#top" className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-ploy-blue-bright/50 bg-ploy-cobalt text-sm font-black text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-sm font-black text-white">
             JC
           </span>
           <span className="flex flex-col leading-tight">
-            <span className="text-base font-black tracking-tight text-white">
+            <span className="text-base font-black tracking-tight">
               Juliana Crispo
             </span>
-            <span className="text-xs font-bold uppercase tracking-[0.14em] text-ploy-text-soft">
+            <span className="text-xs font-bold uppercase tracking-[0.14em] text-ploy-text-secondary">
               Fractional CRO
             </span>
           </span>
@@ -291,11 +294,11 @@ function Hero() {
     <section
       id="top"
       className="relative overflow-hidden"
-      style={{ ["--grid-color" as string]: "var(--color-ploy-blue-bright)" }}
+      style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
     >
-      <GridFloor className="opacity-40" />
+      <GridFloor className="opacity-25" />
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-14 pt-10 text-center md:pt-16">
-        <p className="mb-8 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-blue-bright">
+        <p className="mb-8 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-cobalt">
           Fractional CRO &middot; GTM leadership
         </p>
         <div className="mx-auto mb-20 max-w-md">
@@ -305,7 +308,7 @@ function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-heading text-4xl font-black leading-[1.05] tracking-tight text-balance text-white sm:text-5xl md:text-6xl"
+          className="font-heading text-4xl font-black leading-[1.05] tracking-tight text-balance sm:text-5xl md:text-6xl"
         >
           Build a GTM function
           <br />
@@ -315,7 +318,7 @@ function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mx-auto mt-5 max-w-xl text-lg font-medium text-ploy-text-soft"
+          className="mx-auto mt-5 max-w-xl text-lg font-medium text-ploy-text-secondary"
         >
           I help early-stage tech founders turn founder-led selling into a GTM
           motion that scales. The kind that 7x&apos;d revenue and took startups
@@ -338,13 +341,13 @@ function Hero() {
 }
 
 /* ----------------------------------------------------------------------------
- * Stat band
+ * Stat band — ink-outlined cards, neon numbers alternating pink/blue
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_STATS = [
-  { value: "$0 to $150M+", label: "ARR scaled across portfolio companies" },
-  { value: "11+ yrs", label: "GTM leadership for early-stage founders" },
-  { value: "2", label: "Companies guided to profitable acquisition" },
+  { value: "$0 to $150M+", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
+  { value: "11+ yrs", label: "GTM leadership for early-stage founders", color: "text-ploy-cobalt" },
+  { value: "2", label: "Companies guided to profitable acquisition", color: "text-ploy-cobalt" },
 ];
 
 function StatBand() {
@@ -354,12 +357,12 @@ function StatBand() {
         {DEFAULT_STATS.map((s) => (
           <div
             key={s.label}
-            className={`px-5 py-6 text-center ${CARD} rounded-[1.25rem]`}
+            className="rounded-[1.25rem] border-2 border-ploy-ink bg-white px-5 py-6 text-center shadow-[4px_4px_0_0_var(--color-ploy-ink)]"
           >
-            <div className="text-2xl font-black text-ploy-blue-bright md:text-3xl">
+            <div className={`text-2xl font-black md:text-3xl ${s.color}`}>
               {s.value}
             </div>
-            <p className="mt-2 text-sm font-medium leading-snug text-ploy-text-soft">
+            <p className="mt-2 text-sm font-medium leading-snug text-ploy-text-secondary">
               {s.label}
             </p>
           </div>
@@ -370,20 +373,20 @@ function StatBand() {
 }
 
 /* ----------------------------------------------------------------------------
- * Services: three offerings
+ * Services: three offerings — consistent ink-outlined cards, accent in doses
  * -------------------------------------------------------------------------- */
 
 function ServicesRow() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-blue-bright">
+        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cobalt">
           What I do
         </p>
-        <h2 className="font-heading text-3xl font-black tracking-tight text-balance text-white md:text-4xl">
+        <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
           Everything you need to scale like you&apos;ve done it before.
         </h2>
-        <p className="mt-4 text-lg font-medium text-ploy-text-soft">
+        <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
           Three ways founders work with me to go from founder led to a scalable
           motion that compounds.
         </p>
@@ -391,58 +394,56 @@ function ServicesRow() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {/* 1. Done with you: Playbook Creation */}
-        <div className={`flex flex-col p-7 ${CARD}`}>
-          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-soft">
+        <div className="flex flex-col rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
+          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
             Done with you
           </span>
-          <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-ploy-line bg-ploy-blue-bright/15 text-ploy-blue-bright">
+          <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-blue-soft text-ploy-cobalt">
             <FileText className="h-5 w-5" />
           </span>
-          <h3 className="mt-4 text-xl font-black text-white">
+          <h3 className="mt-4 text-xl font-black text-ploy-text-primary">
             Playbook Creation
           </h3>
-          <p className="mt-2 text-sm font-medium text-ploy-text-soft">
+          <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
             We learn your market and ICP, figure out your GTM process, and turn
             around a playbook built to scale.
           </p>
         </div>
 
         {/* 2. Done for you: 3-Month Fractional CRO (illustration) */}
-        <div className={`flex flex-col p-7 ${CARD}`}>
-          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-soft">
+        <div className="flex flex-col rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
+          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
             Done for you
           </span>
-          <div className="mt-4 flex h-28 items-center justify-center rounded-2xl border border-ploy-line bg-ploy-night">
+          <div className="mt-4 flex h-28 items-center justify-center rounded-2xl border-2 border-ploy-ink bg-ploy-cyan-soft">
             <AdvisoryDrawing />
           </div>
-          <h3 className="mt-4 text-xl font-black text-white">
-            3-Month Fractional CRO
-          </h3>
-          <p className="mt-2 text-sm font-medium text-ploy-text-soft">
+          <h3 className="mt-4 text-xl font-black">3-Month Fractional CRO</h3>
+          <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
             Bring me into your team to build the motion hands on, from pipeline
             to process to your first reps.
           </p>
         </div>
 
         {/* 3. Done for you: Recruiting & Executive Search */}
-        <div className="flex flex-col justify-between rounded-[1.5rem] border border-ploy-blue-bright/40 bg-ploy-panel p-7 shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
+        <div className="flex flex-col justify-between rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-cobalt p-7 text-white shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-soft">
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-white/70">
               Done for you
             </span>
-            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-ploy-line bg-ploy-blue-bright/15 text-ploy-blue-bright">
+            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/40 bg-white/15">
               <Users className="h-5 w-5" />
             </span>
-            <h3 className="mt-4 text-xl font-black leading-tight text-white">
+            <h3 className="mt-4 text-xl font-black leading-tight">
               Recruiting &amp; Executive Search
             </h3>
-            <p className="mt-2 text-sm font-medium text-ploy-text-soft">
+            <p className="mt-2 text-sm font-medium text-white/85">
               I build world-class GTM teams and find you your future CRO.
             </p>
           </div>
           <a
             href="#contact"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-ploy-blue-bright"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-white"
           >
             Let&apos;s build yours <ArrowRight className="h-4 w-4" />
           </a>
@@ -453,14 +454,14 @@ function ServicesRow() {
 }
 
 /* ----------------------------------------------------------------------------
- * Process — banded section with grid floor + neon steps
+ * Process — the single dark synthwave band (grid floor + neon steps)
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_STEPS = [
   {
     title: "Diagnose",
     body: "We pressure-test your current motion to find where deals stall, who's really buying, and what's costing you wins.",
-    color: "bg-ploy-blue-bright",
+    color: "bg-ploy-cobalt",
   },
   {
     title: "Build the playbook",
@@ -470,7 +471,7 @@ const DEFAULT_STEPS = [
   {
     title: "Scale it",
     body: "We operationalize the motion with the right hires and AI agents so growth compounds without adding chaos.",
-    color: "bg-ploy-cyan",
+    color: "bg-ploy-cobalt",
   },
 ];
 
@@ -478,10 +479,10 @@ function ProcessSection() {
   return (
     <section
       id="process"
-      className="relative overflow-hidden border-y border-ploy-line bg-white/[0.03] py-16 text-white md:py-24"
+      className="relative overflow-hidden bg-ploy-ink py-16 text-white md:py-24"
       style={{ ["--grid-color" as string]: "var(--color-ploy-pink)" }}
     >
-      <GridFloor className="opacity-25" />
+      <GridFloor className="opacity-20" />
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cyan">
@@ -495,17 +496,17 @@ function ProcessSection() {
           {DEFAULT_STEPS.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-[1.5rem] border border-ploy-line bg-ploy-panel p-7"
+              className="rounded-[1.5rem] border-2 border-white/15 bg-white/[0.06] p-7 backdrop-blur-sm"
             >
               <span
-                className={`flex h-12 w-12 items-center justify-center rounded-full text-lg font-black text-white ${step.color}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink text-lg font-black text-white ${step.color}`}
               >
                 {i + 1}
               </span>
               <h3 className="mt-5 text-xl font-black text-white">
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm font-medium text-ploy-text-soft">
+              <p className="mt-2 text-sm font-medium text-white/70">
                 {step.body}
               </p>
             </div>
@@ -521,10 +522,10 @@ function ProcessSection() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_RESULTS = [
-  { value: "1 to 42", label: "Enterprise customers at iControl in under 18 months" },
-  { value: "<5 to 80+", label: "Customers at Skore in 12 months" },
-  { value: "2x", label: "Close rates at Instaroid in under 90 days" },
-  { value: "50%", label: "Faster enterprise sales cycle at Appreciation Engine" },
+  { value: "1 to 42", label: "Enterprise customers at iControl in under 18 months", color: "text-ploy-cobalt" },
+  { value: "<5 to 80+", label: "Customers at Skore in 12 months", color: "text-ploy-cobalt" },
+  { value: "2x", label: "Close rates at Instaroid in under 90 days", color: "text-ploy-cobalt" },
+  { value: "50%", label: "Faster enterprise sales cycle at Appreciation Engine", color: "text-ploy-cobalt" },
 ];
 
 const RESULTS_LIST = [
@@ -539,24 +540,27 @@ function ResultsSection() {
     <section id="results" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-blue-bright">
+          <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cobalt">
             Real outcomes
           </p>
-          <h2 className="font-heading text-3xl font-black tracking-tight text-balance text-white md:text-4xl">
+          <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
             Founders don&apos;t hire me for theory.
           </h2>
-          <p className="mt-4 text-lg font-medium text-ploy-text-soft">
+          <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
             Every engagement is measured in pipeline, close rates, and revenue.
             Here&apos;s what that&apos;s looked like across the companies
             I&apos;ve worked with.
           </p>
           <div className="mt-8 grid grid-cols-2 gap-4">
             {DEFAULT_RESULTS.map((r) => (
-              <div key={r.label} className={`p-5 ${CARD} rounded-2xl`}>
-                <div className="text-2xl font-black text-ploy-blue-bright">
+              <div
+                key={r.label}
+                className="rounded-2xl border-2 border-ploy-ink bg-white p-5 shadow-[4px_4px_0_0_var(--color-ploy-ink)]"
+              >
+                <div className={`text-2xl font-black ${r.color}`}>
                   {r.value}
                 </div>
-                <p className="mt-1 text-xs font-semibold leading-snug text-ploy-text-soft">
+                <p className="mt-1 text-xs font-semibold leading-snug text-ploy-text-secondary">
                   {r.label}
                 </p>
               </div>
@@ -564,20 +568,20 @@ function ResultsSection() {
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border border-ploy-blue-bright/40 bg-ploy-panel p-8 shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-ploy-line bg-ploy-blue-bright/15 text-ploy-blue-bright">
+        <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-blue-soft p-8 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-white">
             <Rocket className="h-5 w-5" />
           </span>
-          <h3 className="mt-4 text-2xl font-black leading-tight text-white">
+          <h3 className="mt-4 text-2xl font-black leading-tight">
             Built for the messy early stage.
           </h3>
           <ul className="mt-6 space-y-4">
             {RESULTS_LIST.map((item) => (
               <li key={item} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ploy-blue-bright text-[11px] font-black text-white">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ploy-cobalt text-[11px] font-black text-white">
                   &#10003;
                 </span>
-                <span className="text-sm font-semibold text-white">
+                <span className="text-sm font-semibold text-ploy-text-primary">
                   {item}
                 </span>
               </li>
@@ -598,26 +602,31 @@ const DEFAULT_TESTIMONIALS = [
     quote:
       "We were stuck at $60K and couldn't crack repeatable sales. Six months later we hit $1.4M ARR and finally understood exactly why deals closed.",
     detail: "Founder, Involvesoft (AI SaaS)",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
       "She rebuilt our motion from the ground up. Revenue 7x'd in eight months and the team actually owned the process.",
     detail: "Founder, Valispace (Engineering SaaS)",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
       "We went from a single enterprise logo to 42 in under 18 months. The playbook she left us still runs the floor.",
     detail: "Founder, iControl App (Construction SaaS)",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
       "Our pipeline was pure guesswork. Within a year we grew from 5 customers to more than 80, predictably.",
     detail: "Founder, Skore (Education SaaS)",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
       "Our enterprise deals used to drag on forever. She cut our sales cycle in half and gave us a process we could forecast against.",
     detail: "Founder, Appreciation Engine (Marketing SaaS)",
+    accent: "bg-ploy-cobalt",
   },
 ];
 
@@ -630,10 +639,10 @@ function TestimonialSection() {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
-    <section className="border-y border-ploy-line bg-white/[0.03] py-16 md:py-24">
+    <section className="bg-white py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-10 flex items-end justify-between gap-6">
-          <h2 className="font-heading text-3xl font-black tracking-tight text-balance text-white md:text-4xl">
+          <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
             What founders say after working together.
           </h2>
           <div className="flex shrink-0 gap-3">
@@ -641,7 +650,7 @@ function TestimonialSection() {
               type="button"
               onClick={scrollPrev}
               aria-label="Previous testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ploy-line bg-ploy-panel text-white shadow-[3px_3px_0_0_var(--color-ploy-shadow-deep)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-shadow-deep)]"
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ploy-ink bg-white text-ploy-ink shadow-[3px_3px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-ink)]"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -649,7 +658,7 @@ function TestimonialSection() {
               type="button"
               onClick={scrollNext}
               aria-label="Next testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-ploy-cobalt text-white shadow-[3px_3px_0_0_var(--color-ploy-shadow-deep)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-shadow-deep)]"
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-white shadow-[3px_3px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-ink)]"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -661,16 +670,18 @@ function TestimonialSection() {
             {DEFAULT_TESTIMONIALS.map((t) => (
               <figure
                 key={t.detail}
-                className={`flex min-w-0 shrink-0 grow-0 basis-full flex-col justify-between p-8 md:basis-[calc(50%-12px)] ${CARD}`}
+                className="flex min-w-0 shrink-0 grow-0 basis-full flex-col justify-between rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-cream p-8 shadow-[6px_6px_0_0_var(--color-ploy-ink)] md:basis-[calc(50%-12px)]"
               >
-                <blockquote className="text-xl font-black leading-snug text-white">
+                <blockquote className="text-xl font-black leading-snug text-ploy-text-primary">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
                 <figcaption className="mt-6 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ploy-cobalt text-sm font-black text-white">
+                  <span
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 border-ploy-ink text-sm font-black text-white ${t.accent}`}
+                  >
                     {t.detail.charAt(t.detail.indexOf(",") + 2)}
                   </span>
-                  <span className="text-sm font-extrabold text-ploy-text-soft">
+                  <span className="text-sm font-extrabold text-ploy-text-secondary">
                     {t.detail}
                   </span>
                 </figcaption>
@@ -684,7 +695,7 @@ function TestimonialSection() {
 }
 
 /* ----------------------------------------------------------------------------
- * Final CTA (request form) + Footer
+ * Final CTA + Footer
  * -------------------------------------------------------------------------- */
 
 function FinalCta() {
@@ -715,16 +726,16 @@ function FinalCta() {
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div
-        className="relative overflow-hidden rounded-[2rem] border border-ploy-line bg-ploy-panel-2 px-6 py-14 text-white shadow-[8px_8px_0_0_var(--color-ploy-shadow-deep),0_0_40px_rgba(255,45,143,0.18)] md:px-12 md:py-16"
-        style={{ ["--grid-color" as string]: "var(--color-ploy-pink)" }}
+        className="relative overflow-hidden rounded-[2rem] border-2 border-ploy-ink bg-ploy-ink px-6 py-14 text-white shadow-[8px_8px_0_0_var(--color-ploy-cobalt)] md:px-12 md:py-16"
+        style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
       >
-        <GridFloor className="opacity-25" />
+        <GridFloor className="opacity-20" />
         <div className="relative z-10 grid items-center gap-10 md:grid-cols-2">
           <div className="text-center md:text-left">
             <h2 className="font-heading text-3xl font-black leading-tight tracking-tight text-balance text-white md:text-4xl">
               Ready to scale how you sell?
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-lg font-medium text-ploy-text-soft md:mx-0">
+            <p className="mx-auto mt-4 max-w-md text-lg font-medium text-white/85 md:mx-0">
               Tell me where your GTM motion is stuck and what you are trying to
               hit. If it looks like a fit, I will reach out to set up a strategy
               call.
@@ -732,11 +743,11 @@ function FinalCta() {
           </div>
 
           {status === "done" ? (
-            <div className="rounded-[1.5rem] border border-ploy-line bg-ploy-panel p-8 text-center shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
-              <h3 className="text-xl font-black text-white">
+            <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-white p-8 text-center shadow-[6px_6px_0_0_var(--color-ploy-pink)]">
+              <h3 className="text-xl font-black text-ploy-ink">
                 Request received.
               </h3>
-              <p className="mt-2 text-sm font-medium text-ploy-text-soft">
+              <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
                 Thanks for reaching out. I will be in touch shortly to find
                 time.
               </p>
@@ -744,7 +755,7 @@ function FinalCta() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="rounded-[1.5rem] border border-ploy-line bg-ploy-panel p-6 shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)] md:p-7"
+              className="rounded-[1.5rem] border-2 border-ploy-ink bg-white p-6 shadow-[6px_6px_0_0_var(--color-ploy-pink)] md:p-7"
             >
               <div className="grid gap-3">
                 <input
@@ -775,7 +786,7 @@ function FinalCta() {
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ploy-pink px-8 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-shadow-deep),0_0_26px_rgba(255,45,143,0.4)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-shadow-deep),0_0_30px_rgba(255,45,143,0.55)] disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-ploy-pink px-8 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {status === "submitting" ? (
                   "Sending..."
@@ -800,17 +811,17 @@ function FinalCta() {
 
 function Footer() {
   return (
-    <footer className="border-t border-ploy-line">
+    <footer className="border-t-2 border-ploy-ink">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 md:flex-row">
         <div className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-ploy-blue-bright/50 bg-ploy-cobalt text-xs font-black text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-xs font-black text-white">
             JC
           </span>
-          <span className="text-sm font-bold text-white">
+          <span className="text-sm font-bold">
             Juliana Crispo &middot; Fractional CRO
           </span>
         </div>
-        <div className="flex items-center gap-2 text-sm font-semibold text-ploy-text-soft">
+        <div className="flex items-center gap-2 text-sm font-semibold text-ploy-text-secondary">
           Helping founders scale since 2015.
         </div>
       </div>
@@ -825,7 +836,7 @@ function Footer() {
 export function HomePage() {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen bg-ploy-night text-white">
+      <div className="min-h-screen bg-ploy-background-primary text-ploy-text-primary">
         <Nav />
         <main>
           <Hero />
