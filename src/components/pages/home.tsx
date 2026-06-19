@@ -587,6 +587,11 @@ const DEFAULT_STEPS = [
     body: "We operationalize the motion with the right hires and AI agents so growth compounds without adding chaos.",
     color: "bg-ploy-cobalt",
   },
+  {
+    title: "Iterate and improve",
+    body: "We keep refining the motion as you grow, tightening what works and fixing what stalls so the system keeps compounding.",
+    color: "bg-ploy-cobalt",
+  },
 ];
 
 function ProcessSection() {
@@ -606,7 +611,7 @@ function ProcessSection() {
             A simple path from messy to repeatable.
           </h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
           {DEFAULT_STEPS.map((step, i) => (
             <div
               key={step.title}
