@@ -167,23 +167,6 @@ function GridFloor({ className = "" }: { className?: string }) {
   );
 }
 
-function RetroSun({ size = 300 }: { size?: number }) {
-  return (
-    <div
-      aria-hidden="true"
-      className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full"
-      style={{
-        width: size,
-        height: size,
-        background:
-          "linear-gradient(180deg, var(--color-ploy-pink) 0%, var(--color-ploy-pink) 38%, var(--color-ploy-cobalt) 100%)",
-        opacity: 0.16,
-        filter: "blur(2px)",
-      }}
-    />
-  );
-}
-
 /* ----------------------------------------------------------------------------
  * Hand-drawn growth illustration (on the Fractional CRO card) — on-palette
  * -------------------------------------------------------------------------- */
