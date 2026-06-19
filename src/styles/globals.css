@@ -136,6 +136,15 @@
   --font-mono: var(--font-mono);
   --font-eyebrow: var(--font-eyebrow, var(--font-body));
   --font-button: var(--font-button, var(--font-body));
+
+  /* Playful brand palette extras (dotted lockup, decorative shapes, cards) */
+  --color-ploy-mint: #c5e0ce;
+  --color-ploy-mint-deep: #2f7d57;
+  --color-ploy-orange: #e8842b;
+  --color-ploy-red: #e04a30;
+  --color-ploy-yellow: #f5c84a;
+  --color-ploy-cobalt: #2f5bd9;
+  --color-ploy-cream: #fbf6e8;
 }
 
 /* ============================================
@@ -193,18 +202,18 @@
   /* ============================================
      PLACEHOLDER THEME — TODO: Replace with workspace brand radius and colors (light mode)
      ============================================ */
-  /* Border radius */
-  --radius: 0.625rem;
-  --radius-button: 0.375rem;
-  --radius-card: 0.75rem;
-  --radius-input: 0.375rem;
+  /* Border radius — soft, rounded, friendly */
+  --radius: 1rem;
+  --radius-button: 9999px;
+  --radius-card: 1.5rem;
+  --radius-input: 9999px;
 
-  /* Font families */
-  --font-heading: system-ui, sans-serif, -apple-system;
-  --font-body: system-ui, sans-serif, -apple-system;
+  /* Font families — rounded sans display (Nunito) */
+  --font-heading: "Nunito", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
-  --font-eyebrow: system-ui, sans-serif, -apple-system;
-  --font-button: system-ui, sans-serif, -apple-system;
+  --font-eyebrow: "Nunito", system-ui, sans-serif;
+  --font-button: "Nunito", system-ui, sans-serif;
 
   /* Font sizes (type scale) */
   --font-size-9xl: 8rem;
@@ -222,17 +231,20 @@
   --font-size-xs: 0.75rem;
 
   /* Typography role weights, letter-spacing, line-height */
-  --font-heading-weight: 700;
-  --font-heading-bold-weight: 800;
-  --font-heading-letter-spacing: -0.02em;
-  --font-heading-line-height: 1.2;
-  --font-body-weight: 400;
-  --font-body-bold-weight: 600;
+  --font-heading-weight: 800;
+  --font-heading-bold-weight: 900;
+  --font-heading-letter-spacing: -0.01em;
+  --font-heading-line-height: 1.05;
+  --font-body-weight: 500;
+  --font-body-bold-weight: 700;
   --font-body-letter-spacing: normal;
-  --font-body-line-height: 1.5;
-  --font-button-weight: 500;
-  --font-button-letter-spacing: normal;
+  --font-body-line-height: 1.6;
+  --font-button-weight: 800;
+  --font-button-letter-spacing: 0.01em;
   --font-button-line-height: 1;
+  --font-eyebrow-weight: 800;
+  --font-eyebrow-letter-spacing: 0.12em;
+  --font-eyebrow-line-height: 1.2;
 
   /* Shadows */
   --ploy-shadow-color: var(--ploy-border-primary);
@@ -242,11 +254,11 @@
   --border-style: solid;
 
   /* Ploy theme colors (light mode) */
-  --ploy-neutral-primary: oklch(1 0 0);
-  --ploy-neutral-secondary: oklch(0.97 0 0);
-  --ploy-neutral-inverse: oklch(0 0 0);
-  --ploy-neutral-light: oklch(1 0 0);
-  --ploy-neutral-dark: oklch(0 0 0);
+  --ploy-neutral-primary: #fbf6e8;
+  --ploy-neutral-secondary: #ffffff;
+  --ploy-neutral-inverse: #1b1a14;
+  --ploy-neutral-light: #ffffff;
+  --ploy-neutral-dark: #1b1a14;
   --ploy-neutral-primary-s0: white;
   --ploy-neutral-primary-s1: var(--ploy-neutral-primary);
   --ploy-neutral-primary-s2: var(--ploy-neutral-secondary);
@@ -287,37 +299,37 @@
     var(--ploy-neutral-inverse) 30%,
     var(--ploy-neutral-primary)
   );
-  --ploy-accent-primary: oklch(0 0 0);
-  --ploy-accent-secondary: oklch(1 0 0);
-  --ploy-accent-tertiary: oklch(0 0 0);
-  --ploy-text-primary: var(--ploy-neutral-inverse);
-  --ploy-text-secondary: var(--ploy-neutral-inverse-700);
-  --ploy-text-inverse: oklch(1 0 0);
-  --ploy-text-inverse-secondary: oklch(1 0 0 / 60%);
-  --ploy-text-on-accent-primary: oklch(1 0 0);
-  --ploy-text-on-accent-secondary: oklch(1 0 0);
-  --ploy-text-on-accent-tertiary: oklch(0 0 0);
-  --ploy-button-primary-background: var(--ploy-background-inverse);
-  --ploy-button-primary-text: var(--ploy-background-primary);
-  --ploy-button-primary-border: var(--ploy-text-primary);
-  --ploy-button-secondary-background: var(--ploy-background-primary);
-  --ploy-button-secondary-text: var(--ploy-background-inverse);
-  --ploy-button-secondary-border: var(--ploy-neutral-inverse-300);
+  --ploy-accent-primary: #2f5bd9;
+  --ploy-accent-secondary: #e04a30;
+  --ploy-accent-tertiary: #f5c84a;
+  --ploy-text-primary: #1b1a14;
+  --ploy-text-secondary: #5a584f;
+  --ploy-text-inverse: #fbf6e8;
+  --ploy-text-inverse-secondary: oklch(1 0 0 / 70%);
+  --ploy-text-on-accent-primary: #ffffff;
+  --ploy-text-on-accent-secondary: #ffffff;
+  --ploy-text-on-accent-tertiary: #1b1a14;
+  --ploy-button-primary-background: #2f5bd9;
+  --ploy-button-primary-text: #ffffff;
+  --ploy-button-primary-border: #2f5bd9;
+  --ploy-button-secondary-background: transparent;
+  --ploy-button-secondary-text: #1b1a14;
+  --ploy-button-secondary-border: #d5d0bd;
   --ploy-background-primary: var(--ploy-neutral-primary-s1);
   --ploy-background-secondary: var(--ploy-neutral-secondary);
   --ploy-background-accent-primary: var(--ploy-accent-primary);
   --ploy-background-accent-secondary: var(--ploy-accent-secondary);
   --ploy-background-accent-tertiary: var(--ploy-accent-tertiary);
   --ploy-background-inverse: var(--ploy-neutral-inverse-s1);
-  --ploy-border-primary: var(--ploy-neutral-primary-s5);
+  --ploy-border-primary: #e8e2cd;
   --ploy-border-inverse: color-mix(
     in srgb,
     var(--ploy-neutral-inverse-s0) 20%,
     transparent
   );
-  --ploy-input-background: var(--ploy-neutral-primary);
-  --ploy-input-border: var(--ploy-neutral-primary-s5);
-  --destructive: oklch(0.55 0.22 27);
+  --ploy-input-background: #ffffff;
+  --ploy-input-border: #e8e2cd;
+  --destructive: #e04a30;
   --border: var(--ploy-border-primary);
   --background: var(--ploy-background-primary);
   --foreground: var(--ploy-text-primary);
