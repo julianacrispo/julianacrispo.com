@@ -301,7 +301,7 @@ function Hero() {
         <p className="mb-8 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-cobalt">
           Fractional CRO &middot; GTM leadership
         </p>
-        <div className="mx-auto mb-12 max-w-xl">
+        <div className="mx-auto mb-20 max-w-md">
           <DottedWord word="SCALE" />
         </div>
         <motion.h1
