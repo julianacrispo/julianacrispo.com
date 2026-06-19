@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { HomePage } from "@/components/pages/home";
+import { SITE_CONFIG } from "@/site-config";
+
+export const prerender = true;
+---
+
+<Layout title={SITE_CONFIG.name} description={SITE_CONFIG.description}>
+  <HomePage client:load />
+</Layout>
