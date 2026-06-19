@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { MotionConfig, motion } from "motion/react";
 import useEmblaCarousel from "embla-carousel-react";
 import {
@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { submitForm } from "@/lib/ploy-forms/submit-form";
 
 /**
  * @ployComponent
@@ -30,7 +31,7 @@ import {
  * section shouting. Composes local sections: Nav, Hero (dotted SCALE lockup + sun + grid),
  * StatBand, ServicesRow (Playbook Creation / 3-Month Fractional CRO / Recruiting & Exec
  * Search), ProcessSection (dark band: Diagnose / Build the playbook / Scale with agents and
- * people), ResultsSection, TestimonialSection (Embla), FinalCta ($1K paid strategy call),
+ * people), ResultsSection, TestimonialSection (Embla), FinalCta (request-a-strategy-call form),
  * Footer. Copy in DEFAULT_* consts. No em dashes by request. Palette tokens: ploy-pink,
  * ploy-cobalt, ploy-cyan, ploy-ink, ploy-cream + *-soft tints in globals.css @theme inline.
  */
@@ -42,6 +43,9 @@ const NAV_LINKS = [
 ];
 
 const INK = "var(--color-ploy-ink)";
+
+const INPUT_CLASS =
+  "w-full rounded-xl border-2 border-ploy-ink bg-white px-4 py-3 text-sm font-semibold text-ploy-ink placeholder:text-ploy-text-secondary/70 focus:outline-none focus:ring-2 focus:ring-ploy-cobalt";
 
 /* ----------------------------------------------------------------------------
  * Dotted display lockup: signature "wiggly" dot-matrix wordmark.
@@ -251,7 +255,18 @@ function GhostButton({
 function Nav() {
   return (
     <header className="relative z-20">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+      <div className="mx-auto flex max-w-6xl items-center justify-end gap-8 px-6 py-5 md:justify-between">
+        <nav className="hidden items-center gap-8 md:flex">
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-sm font-bold text-ploy-text-secondary transition-colors hover:text-ploy-text-primary"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
         <a href="#top" className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-sm font-black text-white">
             JC
@@ -265,20 +280,6 @@ function Nav() {
             </span>
           </span>
         </a>
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm font-bold text-ploy-text-secondary transition-colors hover:text-ploy-text-primary"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <PrimaryButton href="#contact" className="px-5 py-2.5 text-sm">
-          Book a call
-        </PrimaryButton>
       </div>
     </header>
   );
@@ -330,7 +331,7 @@ function Hero() {
           className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
           <PrimaryButton href="#contact">
-            Book a strategy call <ArrowRight className="h-4 w-4" />
+            Request a strategy call <ArrowRight className="h-4 w-4" />
           </PrimaryButton>
           <GhostButton href="#results">See the results</GhostButton>
         </motion.div>
@@ -471,7 +472,7 @@ const DEFAULT_STEPS = [
     color: "bg-ploy-cobalt",
   },
   {
-    title: "Scale it with agents and people",
+    title: "Scale it",
     body: "We operationalize the motion with the right hires and AI agents so growth compounds without adding chaos.",
     color: "bg-ploy-cobalt",
   },
@@ -616,7 +617,7 @@ const DEFAULT_TESTIMONIALS = [
     quote:
       "We went from a single enterprise logo to 42 in under 18 months. The playbook she left us still runs the floor.",
     detail: "Founder, iControl App (Construction SaaS)",
-    accent: "bg-ploy-cyan",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
@@ -701,29 +702,110 @@ function TestimonialSection() {
  * -------------------------------------------------------------------------- */
 
 function FinalCta() {
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "done" | "error"
+  >("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") || ""),
+      email: String(data.get("email") || ""),
+      company: String(data.get("company") || ""),
+      goal: String(data.get("goal") || ""),
+    };
+    setStatus("submitting");
+    try {
+      await submitForm("strategy-call-request", payload);
+      setStatus("done");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div
-        className="relative overflow-hidden rounded-[2rem] border-2 border-ploy-ink bg-ploy-ink px-8 py-16 text-center text-white shadow-[8px_8px_0_0_var(--color-ploy-cobalt)] md:py-20"
+        className="relative overflow-hidden rounded-[2rem] border-2 border-ploy-ink bg-ploy-ink px-6 py-14 text-white shadow-[8px_8px_0_0_var(--color-ploy-cobalt)] md:px-12 md:py-16"
         style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
       >
-        <GridFloor className="opacity-25" />
-        <div className="relative z-10 mx-auto max-w-2xl">
-          <h2 className="font-heading text-3xl font-black leading-tight tracking-tight text-balance text-white md:text-5xl">
-            Ready to scale how you sell?
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-lg font-medium text-white/85">
-            Book a 1-hour strategy call for $1,000. We&apos;ll pinpoint where
-            your GTM motion is stuck and map the fastest path to repeatable
-            revenue. You&apos;ll leave with a plan whether or not we work
-            together.
-          </p>
-          <a
-            href="mailto:hello@julianacrispo.com"
-            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-ploy-pink px-8 py-4 text-base font-extrabold text-white shadow-[4px_4px_0_0_#ffffff] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_#ffffff]"
-          >
-            Book a strategy call ($1K) <ArrowRight className="h-4 w-4" />
-          </a>
+        <GridFloor className="opacity-20" />
+        <div className="relative z-10 grid items-center gap-10 md:grid-cols-2">
+          <div className="text-center md:text-left">
+            <h2 className="font-heading text-3xl font-black leading-tight tracking-tight text-balance text-white md:text-4xl">
+              Ready to scale how you sell?
+            </h2>
+            <p className="mx-auto mt-4 max-w-md text-lg font-medium text-white/85 md:mx-0">
+              Tell me where your GTM motion is stuck and what you are trying to
+              hit. If it looks like a fit, I will reach out to set up a strategy
+              call.
+            </p>
+          </div>
+
+          {status === "done" ? (
+            <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-white p-8 text-center shadow-[6px_6px_0_0_var(--color-ploy-pink)]">
+              <h3 className="text-xl font-black text-ploy-ink">
+                Request received.
+              </h3>
+              <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
+                Thanks for reaching out. I will be in touch shortly to find
+                time.
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-[1.5rem] border-2 border-ploy-ink bg-white p-6 shadow-[6px_6px_0_0_var(--color-ploy-pink)] md:p-7"
+            >
+              <div className="grid gap-3">
+                <input
+                  name="name"
+                  required
+                  placeholder="Your name"
+                  className={INPUT_CLASS}
+                />
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Work email"
+                  className={INPUT_CLASS}
+                />
+                <input
+                  name="company"
+                  placeholder="Company"
+                  className={INPUT_CLASS}
+                />
+                <textarea
+                  name="goal"
+                  rows={3}
+                  placeholder="What are you trying to hit?"
+                  className={INPUT_CLASS}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-ploy-pink px-8 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {status === "submitting" ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    Request a strategy call <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+              {status === "error" && (
+                <p className="mt-3 text-center text-sm font-semibold text-ploy-pink">
+                  Something went wrong. Please try again.
+                </p>
+              )}
+            </form>
+          )}
         </div>
       </div>
     </section>
