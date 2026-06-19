@@ -425,24 +425,24 @@ function ServicesRow() {
         </div>
 
         {/* 3. Done for you: Recruiting & Executive Search */}
-        <div className="flex flex-col justify-between rounded-[1.5rem] border border-ploy-blue-bright/40 bg-ploy-cobalt p-7 text-white shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
+        <div className="flex flex-col justify-between rounded-[1.5rem] border border-ploy-blue-bright/40 bg-ploy-panel p-7 shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-white/70">
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-soft">
               Done for you
             </span>
-            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/15">
+            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-ploy-line bg-ploy-blue-bright/15 text-ploy-blue-bright">
               <Users className="h-5 w-5" />
             </span>
-            <h3 className="mt-4 text-xl font-black leading-tight">
+            <h3 className="mt-4 text-xl font-black leading-tight text-white">
               Recruiting &amp; Executive Search
             </h3>
-            <p className="mt-2 text-sm font-medium text-white/85">
+            <p className="mt-2 text-sm font-medium text-ploy-text-soft">
               I build world-class GTM teams and find you your future CRO.
             </p>
           </div>
           <a
             href="#contact"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-white"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-ploy-blue-bright"
           >
             Let&apos;s build yours <ArrowRight className="h-4 w-4" />
           </a>
@@ -564,8 +564,8 @@ function ResultsSection() {
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border border-ploy-blue-bright/40 bg-ploy-cobalt p-8 shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white">
+        <div className="rounded-[1.5rem] border border-ploy-blue-bright/40 bg-ploy-panel p-8 shadow-[6px_6px_0_0_var(--color-ploy-shadow-deep)]">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-ploy-line bg-ploy-blue-bright/15 text-ploy-blue-bright">
             <Rocket className="h-5 w-5" />
           </span>
           <h3 className="mt-4 text-2xl font-black leading-tight text-white">
@@ -574,7 +574,7 @@ function ResultsSection() {
           <ul className="mt-6 space-y-4">
             {RESULTS_LIST.map((item) => (
               <li key={item} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[11px] font-black text-white">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ploy-blue-bright text-[11px] font-black text-white">
                   &#10003;
                 </span>
                 <span className="text-sm font-semibold text-white">
