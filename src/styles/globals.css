@@ -138,8 +138,10 @@
   --font-button: var(--font-button, var(--font-body));
 
   /* Playful brand palette extras (dotted lockup, decorative shapes, cards) */
-  --color-ploy-mint: #c5e0ce;
-  --color-ploy-mint-deep: #2f7d57;
+  --color-ploy-pink: #ff2d8f;
+  --color-ploy-purple: #8b3df0;
+  --color-ploy-mint: #b8e7ec;
+  --color-ploy-mint-deep: #0b7c88;
   --color-ploy-orange: #e8842b;
   --color-ploy-red: #e04a30;
   --color-ploy-yellow: #f5c84a;
@@ -299,8 +301,8 @@
     var(--ploy-neutral-inverse) 30%,
     var(--ploy-neutral-primary)
   );
-  --ploy-accent-primary: #2f5bd9;
-  --ploy-accent-secondary: #e04a30;
+  --ploy-accent-primary: #ff2d8f;
+  --ploy-accent-secondary: #2f5bd9;
   --ploy-accent-tertiary: #f5c84a;
   --ploy-text-primary: #1b1a14;
   --ploy-text-secondary: #5a584f;
@@ -309,9 +311,9 @@
   --ploy-text-on-accent-primary: #ffffff;
   --ploy-text-on-accent-secondary: #ffffff;
   --ploy-text-on-accent-tertiary: #1b1a14;
-  --ploy-button-primary-background: #2f5bd9;
+  --ploy-button-primary-background: #ff2d8f;
   --ploy-button-primary-text: #ffffff;
-  --ploy-button-primary-border: #2f5bd9;
+  --ploy-button-primary-border: #ff2d8f;
   --ploy-button-secondary-background: transparent;
   --ploy-button-secondary-text: #1b1a14;
   --ploy-button-secondary-border: #d5d0bd;
