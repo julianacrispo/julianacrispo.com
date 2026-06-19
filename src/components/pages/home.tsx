@@ -539,28 +539,29 @@ function ServicesRow() {
         </div>
 
         {/* 3. Done for you: Recruiting & Executive Search */}
-        <div className="flex flex-col justify-between rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-cobalt p-7 text-white shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
+        <div className="flex flex-col justify-between rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-white/70">
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
               Done for you
             </span>
-            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/40 bg-white/15">
+            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-blue-soft text-ploy-cobalt">
               <Users className="h-5 w-5" />
             </span>
-            <h3 className="mt-4 text-xl font-black leading-tight">
+            <h3 className="mt-4 text-xl font-black leading-tight text-ploy-text-primary">
               Recruiting &amp; Executive Search
             </h3>
-            <p className="mt-2 text-sm font-medium text-white/85">
+            <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
               I build world-class GTM teams and find you your future CRO.
             </p>
           </div>
           <a
             href="#contact"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-white"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-ploy-cobalt"
           >
             Let&apos;s build yours <ArrowRight className="h-4 w-4" />
           </a>
         </div>
+
       </div>
     </section>
   );
