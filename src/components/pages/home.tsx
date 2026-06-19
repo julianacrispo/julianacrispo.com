@@ -466,7 +466,7 @@ const DEFAULT_STATS = [
 function StatBand() {
   return (
     <section className="relative z-10 mx-auto mt-2 max-w-6xl px-6 pb-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
         {DEFAULT_STATS.map((s) => (
           <div
             key={s.label}
