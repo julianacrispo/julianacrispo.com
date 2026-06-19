@@ -92,11 +92,11 @@ const GLYPHS: Record<string, number[][]> = {
 };
 
 const LETTER_COLORS = [
-  "var(--color-ploy-red)",
-  "var(--color-ploy-orange)",
-  "var(--color-ploy-yellow)",
-  "var(--color-ploy-mint-deep)",
+  "var(--color-ploy-pink)",
   "var(--color-ploy-cobalt)",
+  "var(--color-ploy-yellow)",
+  "var(--color-ploy-purple)",
+  "var(--color-ploy-mint-deep)",
 ];
 
 function DottedWord({ word = "SCALE" }: { word?: string }) {
@@ -162,7 +162,7 @@ function FloatingShapes() {
     >
       <motion.div
         {...float(0.2, 8)}
-        className="absolute -left-10 top-24 h-40 w-40 rounded-full bg-ploy-red/90"
+        className="absolute -left-10 top-24 h-40 w-40 rounded-full bg-ploy-pink/90"
         style={{ clipPath: "inset(0 0 50% 0)" }}
       />
       <motion.div
@@ -175,7 +175,7 @@ function FloatingShapes() {
       />
       <motion.div
         {...float(0.5, 14)}
-        className="absolute right-[8%] top-[46%] h-12 w-12 -rotate-6 rounded-xl bg-ploy-cobalt"
+        className="absolute right-[8%] top-[46%] h-12 w-12 -rotate-6 rounded-xl bg-ploy-purple"
       />
       <motion.div
         {...float(1.4, 9)}
@@ -190,7 +190,7 @@ function FloatingShapes() {
       </div>
       <div className="absolute left-[8%] bottom-16 hidden md:grid grid-cols-4 gap-2 opacity-50">
         {Array.from({ length: 16 }).map((_, i) => (
-          <span key={i} className="h-1.5 w-1.5 rounded-full bg-ploy-red/40" />
+          <span key={i} className="h-1.5 w-1.5 rounded-full bg-ploy-pink/50" />
         ))}
       </div>
     </div>
@@ -262,7 +262,7 @@ function PrimaryButton({
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full bg-ploy-cobalt px-7 py-3.5 text-base font-extrabold text-white shadow-sm transition-colors hover:bg-ploy-cobalt/90 ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full bg-ploy-pink px-7 py-3.5 text-base font-extrabold text-white shadow-sm transition-colors hover:bg-ploy-pink/90 ${className}`}
     >
       {children}
     </a>
@@ -724,7 +724,7 @@ function FinalCta() {
           </p>
           <a
             href="mailto:hello@julianacrispo.com"
-            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-extrabold text-ploy-cobalt transition-colors hover:bg-white/90"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-ploy-pink px-8 py-4 text-base font-extrabold text-white shadow-sm transition-colors hover:bg-ploy-pink/90"
           >
             Book a strategy call ($1K) <ArrowRight className="h-4 w-4" />
           </a>
