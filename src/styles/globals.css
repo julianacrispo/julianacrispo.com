@@ -148,6 +148,15 @@
   --color-ploy-pink-soft: #ffe1ef;
   --color-ploy-blue-soft: #dfe7fb;
   --color-ploy-cyan-soft: #d4f3f6;
+
+  /* dark synthwave surfaces (alternate background direction) */
+  --color-ploy-night: #0f0a24;
+  --color-ploy-panel: #1b1540;
+  --color-ploy-panel-2: #241b52;
+  --color-ploy-line: #4a3f80;
+  --color-ploy-text-soft: #c4bce6;
+  --color-ploy-shadow-deep: #060312;
+  --color-ploy-blue-bright: #5b86ff;
 }
 
 /* ============================================
