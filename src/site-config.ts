@@ -7,7 +7,8 @@ interface SiteConfig {
 }
 
 export const SITE_CONFIG: SiteConfig = {
-  name: "",
-  description: "",
+  name: "Juliana Crispo · Sales Advisory",
+  description:
+    "Sales-process consulting and advisory for early-stage tech founders. Turn founder-led selling into a repeatable, scalable sales motion.",
   sourceSitemapUrl: "",
 };
