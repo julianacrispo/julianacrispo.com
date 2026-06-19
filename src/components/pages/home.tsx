@@ -357,7 +357,7 @@ function Hero() {
         >
           I help early-stage tech founders turn founder-led selling into a GTM
           motion that scales. The kind that 7x&apos;d revenue and took startups
-          from $0 to $150M.
+          from $0 to $150M ARR.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -380,7 +380,7 @@ function Hero() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_STATS = [
-  { value: "$0 to $150M", label: "Revenue scaled across portfolio companies" },
+  { value: "$0 to $150M", label: "ARR scaled across portfolio companies" },
   { value: "7x", label: "Revenue growth at Valispace in 8 months" },
   { value: "11+ yrs", label: "GTM leadership for early-stage founders" },
   { value: "2", label: "Companies guided to acquisition" },
