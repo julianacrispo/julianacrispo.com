@@ -34,3 +34,4 @@ wrangler.toml
 logs/
 lost+found/
 .ploy/
+ploy.astro.config.mjs
