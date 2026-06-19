@@ -21,9 +21,11 @@ import {
  * for early-stage founders. Coherent 80s synthwave direction (reworked from an earlier
  * scattered 8-color version that read as visual noise). DISCIPLINED PALETTE: cream paper
  * (#FBF6E8) + ink (#1B1A14) neutrals, with hot pink (#FF2D8F) and electric blue (#2F5BD9)
- * as the only two star accents, cyan (#1FC6D6) as a cool support tint. Signature retro
- * devices: hard offset drop shadows (shadow-[Npx_Npx_0_0_ink]), 2px ink outlines on cards
- * and buttons, a perspective grid floor, and a pink/blue gradient "sun". Section rhythm:
+ * as the dominant accents. STRICT RULE: hot pink is reserved ONLY for CTA buttons; every
+ * other accent (eyebrows, stats, icons, dotted lockup, step badges) uses electric blue, with
+ * cyan (#1FC6D6) as a cool support tint. Signature retro devices: hard offset drop shadows
+ * (shadow-[Npx_Npx_0_0_ink]), 2px ink outlines on cards and buttons, a perspective grid floor
+ * (no decorative "sun" \u2014 removed per feedback). Section rhythm:
  * cream default with ONE dark ink synthwave band (Process) plus a dark CTA, instead of every
  * section shouting. Composes local sections: Nav, Hero (dotted SCALE lockup + sun + grid),
  * StatBand, ServicesRow (Playbook Creation / 3-Month Fractional CRO / Recruiting & Exec
