@@ -297,7 +297,7 @@ function Hero() {
     >
       <GridFloor className="opacity-25" />
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-14 pt-10 text-center md:pt-16">
-        <div className="mx-auto mb-12 max-w-2xl">
+        <div className="mx-auto mb-10 max-w-xl">
           <DottedWord word="SCALE" />
         </div>
         <p className="mb-6 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-cobalt">
