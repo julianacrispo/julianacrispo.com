@@ -286,6 +286,118 @@ function Nav() {
 }
 
 /* ----------------------------------------------------------------------------
+ * 80s money / pipeline / chart motifs (decorative hero framing)
+ * Ink outlines + hard offset shadows + blue/cyan fills. Pink stays CTA-only.
+ * -------------------------------------------------------------------------- */
+
+function Sparkle({ className = "" }: { className?: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M12 0l2.4 7.6L22 8.4l-5.8 4.6 2 7.6L12 16.8 5.8 20.6l2-7.6L2 8.4l7.6-.8z" />
+    </svg>
+  );
+}
+
+function BarChartMotif() {
+  return (
+    <svg width="104" height="92" viewBox="0 0 104 92" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="100" height="88" rx="12" fill="var(--color-ploy-cream)" stroke={INK} strokeWidth="3" />
+      <line x1="16" y1="74" x2="88" y2="74" stroke={INK} strokeWidth="2.5" />
+      <rect x="22" y="52" width="13" height="22" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="2.5" />
+      <rect x="45" y="40" width="13" height="34" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="2.5" />
+      <rect x="68" y="26" width="13" height="48" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="2.5" />
+      <path d="M20 54 C 40 48, 56 32, 84 18" stroke={INK} strokeWidth="2.5" strokeDasharray="2 6" />
+      <path d="M75 15 L86 13 L86 24" stroke={INK} strokeWidth="2.5" />
+    </svg>
+  );
+}
+
+function CoinMotif() {
+  return (
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="22" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="3" />
+      <circle cx="30" cy="30" r="16" fill="none" stroke={INK} strokeWidth="2" strokeDasharray="3 4" opacity="0.55" />
+      <text x="30" y="39" textAnchor="middle" fontSize="24" fontWeight="900" fontFamily="Nunito, system-ui, sans-serif" fill={INK}>$</text>
+    </svg>
+  );
+}
+
+function PipelineMotif() {
+  return (
+    <svg width="80" height="90" viewBox="0 0 80 90" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 8 H70 L57 27 H23 Z" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="3" />
+      <path d="M24 33 H56 L47 52 H33 Z" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="3" />
+      <path d="M34 58 H46 L42 74 H38 Z" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="3" />
+      <circle cx="40" cy="84" r="4" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="2" />
+    </svg>
+  );
+}
+
+function TickerMotif() {
+  return (
+    <svg width="96" height="64" viewBox="0 0 96 64" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6,54 24,42 38,48 56,26 72,32 88,12" fill="none" stroke="var(--color-ploy-cobalt)" strokeWidth="4" />
+      {[
+        [6, 54],
+        [24, 42],
+        [38, 48],
+        [56, 26],
+        [72, 32],
+      ].map(([cx, cy]) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="3.4" fill={INK} />
+      ))}
+      <path
+        d="M88 12 m0,-9 l1.9,6 6,0.4 -4.7,3.7 1.7,5.9 -4.9,-3.3 -4.9,3.3 1.7,-5.9 -4.7,-3.7 6,-0.4 z"
+        fill="var(--color-ploy-cyan)"
+        stroke={INK}
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
+}
+
+function HeroMotifs() {
+  const float = (delay: number, dist = 8) => ({
+    initial: { opacity: 0 },
+    animate: { opacity: 1, y: [0, -dist, 0] },
+    transition: {
+      opacity: { duration: 0.6, delay },
+      y: {
+        duration: 4 + delay,
+        repeat: Infinity,
+        ease: "easeInOut" as const,
+        delay,
+      },
+    },
+  });
+  const hardShadow = {
+    filter: "drop-shadow(4px 4px 0 var(--color-ploy-ink))",
+  };
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
+      <motion.div {...float(0.2)} className="absolute left-[4%] top-24" style={hardShadow}>
+        <BarChartMotif />
+      </motion.div>
+      <motion.div {...float(0.7)} className="absolute left-[9%] top-[58%]" style={hardShadow}>
+        <CoinMotif />
+      </motion.div>
+      <motion.div {...float(0.4)} className="absolute right-[5%] top-20" style={hardShadow}>
+        <PipelineMotif />
+      </motion.div>
+      <motion.div {...float(0.95)} className="absolute right-[7%] top-[56%]">
+        <TickerMotif />
+      </motion.div>
+      <motion.div {...float(1.2, 6)} className="absolute left-[20%] top-[14%] text-ploy-cyan">
+        <Sparkle />
+      </motion.div>
+      <motion.div {...float(0.55, 6)} className="absolute right-[22%] top-[44%] text-ploy-cobalt">
+        <Sparkle className="h-4 w-4" />
+      </motion.div>
+    </div>
+  );
+}
+
+/* ----------------------------------------------------------------------------
  * Hero
  * -------------------------------------------------------------------------- */
 
@@ -297,6 +409,7 @@ function Hero() {
       style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
     >
       <GridFloor className="opacity-25" />
+      <HeroMotifs />
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-14 pt-10 text-center md:pt-16">
         <p className="mb-8 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-cobalt">
           Fractional CRO &middot; GTM leadership
