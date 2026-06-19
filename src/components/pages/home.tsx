@@ -1,4 +1,6 @@
+import { useCallback } from "react";
 import { MotionConfig, motion } from "motion/react";
+import useEmblaCarousel from "embla-carousel-react";
 import {
   ArrowRight,
   TrendingUp,
@@ -6,6 +8,8 @@ import {
   LineChart,
   CheckCircle2,
   FileText,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 /**
@@ -607,48 +611,84 @@ function ResultsSection() {
 
 const DEFAULT_TESTIMONIALS = [
   {
-    quote:
-      "In a matter of 4 months, using the learnings from the program, we landed a new six-figure client and beat out a number of established competitors.",
-    name: "Christopher Coger",
-    detail: "Founder",
+    quote: "Juliana helped us go from $60K to $1.4M ARR in 6 months.",
+    detail: "Founder, Involvesoft (AI SaaS)",
+  },
+  {
+    quote: "Juliana helped us 7x revenue in 8 months.",
+    detail: "Founder, Valispace (Engineering SaaS)",
   },
   {
     quote:
-      "Juliana's approach helped me create a more relevant communication strategy with new customers that led to two F500 clients in a short 4 months.",
-    name: "Cristina Sergi Knellinger",
-    detail: "Sales Leader",
+      "Juliana helped us go from 1 to 42 enterprise customers in 18 months.",
+    detail: "Founder, iControl App (Construction SaaS)",
+  },
+  {
+    quote: "Juliana helped us go from 5 to 80+ customers in 12 months.",
+    detail: "Founder, Skore (Education SaaS)",
+  },
+  {
+    quote: "Juliana helped us cut our enterprise sales cycle in half.",
+    detail: "Founder, Appreciation Engine (Marketing SaaS)",
   },
 ];
 
 function TestimonialSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+  });
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="mb-10 text-center font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
-          What founders say after working together.
-        </h2>
-        <div className="grid gap-5 md:grid-cols-2">
-          {DEFAULT_TESTIMONIALS.map((t) => (
-            <figure
-              key={t.name}
-              className="flex flex-col justify-between rounded-[1.5rem] bg-ploy-cream p-8"
+        <div className="mb-10 flex items-end justify-between gap-6">
+          <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
+            What founders say after working together.
+          </h2>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={scrollPrev}
+              aria-label="Previous testimonial"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-ploy-border-primary bg-white text-ploy-text-primary transition-colors hover:bg-ploy-cream"
             >
-              <blockquote className="text-lg font-bold leading-relaxed text-ploy-text-primary">
-                &ldquo;{t.quote}&rdquo;
-              </blockquote>
-              <figcaption className="mt-6 flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ploy-yellow text-sm font-black">
-                  {t.name.charAt(0)}
-                </span>
-                <span>
-                  <span className="block text-sm font-extrabold">{t.name}</span>
-                  <span className="block text-xs font-semibold text-ploy-text-secondary">
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={scrollNext}
+              aria-label="Next testimonial"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-ploy-cobalt text-white transition-colors hover:bg-ploy-cobalt/90"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-5">
+            {DEFAULT_TESTIMONIALS.map((t) => (
+              <figure
+                key={t.detail}
+                className="flex min-w-0 shrink-0 grow-0 basis-full flex-col justify-between rounded-[1.5rem] bg-ploy-cream p-8 md:basis-[calc(50%-10px)]"
+              >
+                <blockquote className="text-xl font-black leading-snug text-ploy-text-primary">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+                <figcaption className="mt-6 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ploy-yellow text-sm font-black">
+                    {t.detail.charAt(t.detail.indexOf(",") + 2)}
+                  </span>
+                  <span className="text-sm font-extrabold text-ploy-text-secondary">
                     {t.detail}
                   </span>
-                </span>
-              </figcaption>
-            </figure>
-          ))}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </div>
     </section>
