@@ -192,14 +192,14 @@ function AdvisoryDrawing() {
       <path d="M28 118 H172" stroke={INK} strokeWidth="3" />
       <rect x="40" y="92" width="20" height="26" rx="4" stroke="#2f5bd9" strokeWidth="3" />
       <rect x="74" y="74" width="20" height="44" rx="4" stroke="#1fc6d6" strokeWidth="3" />
-      <rect x="108" y="54" width="20" height="64" rx="4" stroke="#ff2d8f" strokeWidth="3" />
+      <rect x="108" y="54" width="20" height="64" rx="4" stroke="#2f5bd9" strokeWidth="3" />
       <path
         d="M44 104 C 80 96, 110 70, 158 38"
-        stroke="#ff2d8f"
+        stroke="#2f5bd9"
         strokeWidth="3"
         strokeDasharray="2 9"
       />
-      <path d="M150 34 L162 34 L162 46" stroke="#ff2d8f" strokeWidth="3" />
+      <path d="M150 34 L162 34 L162 46" stroke="#2f5bd9" strokeWidth="3" />
       <path d="M168 72 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#2f5bd9" />
       <circle cx="36" cy="40" r="4" fill="#1fc6d6" />
     </svg>
