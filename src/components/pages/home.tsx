@@ -460,7 +460,7 @@ function Hero() {
 const DEFAULT_STATS = [
   { value: "$0 to $150M+", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
   { value: "11+ yrs", label: "GTM leadership for early-stage founders", color: "text-ploy-cobalt" },
-  { value: "2", label: "Companies guided to profitable acquisition", color: "text-ploy-cobalt" },
+  { value: "2", label: "Companies scaled to profitable exits", color: "text-ploy-cobalt" },
 ];
 
 function StatBand() {
