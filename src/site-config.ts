@@ -7,8 +7,8 @@ interface SiteConfig {
 }
 
 export const SITE_CONFIG: SiteConfig = {
-  name: "Juliana Crispo · Sales Advisory",
+  name: "Juliana Crispo · Fractional CRO",
   description:
-    "Sales-process consulting and advisory for early-stage tech founders. Turn founder-led selling into a repeatable, scalable sales motion.",
+    "Fractional CRO and GTM leadership for early-stage tech founders. Turn founder-led selling into a scalable go-to-market motion that compounds.",
   sourceSitemapUrl: "",
 };
