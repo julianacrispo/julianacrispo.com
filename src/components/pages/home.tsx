@@ -412,20 +412,18 @@ function ServicesRow() {
         </div>
 
         {/* 2. Done for you: 3-Month Fractional CRO (illustration) */}
-        <div className="flex flex-col overflow-hidden rounded-[1.5rem] border-2 border-ploy-ink bg-white shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
-          <div className="flex h-44 items-center justify-center border-b-2 border-ploy-ink bg-ploy-cyan-soft">
+        <div className="flex flex-col rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
+          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
+            Done for you
+          </span>
+          <div className="mt-4 flex h-28 items-center justify-center rounded-2xl border-2 border-ploy-ink bg-ploy-cyan-soft">
             <AdvisoryDrawing />
           </div>
-          <div className="p-7">
-            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
-              Done for you
-            </span>
-            <h3 className="mt-3 text-xl font-black">3-Month Fractional CRO</h3>
-            <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-              Bring me into your team to build the motion hands on, from
-              pipeline to process to your first reps.
-            </p>
-          </div>
+          <h3 className="mt-4 text-xl font-black">3-Month Fractional CRO</h3>
+          <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
+            Bring me into your team to build the motion hands on, from pipeline
+            to process to your first reps.
+          </p>
         </div>
 
         {/* 3. Done for you: Recruiting & Executive Search */}
