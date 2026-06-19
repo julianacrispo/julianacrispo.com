@@ -95,10 +95,10 @@ const GLYPHS: Record<string, number[][]> = {
   ],
 };
 
-// Two-star alternation only — pink, blue, pink, blue, pink.
+// Blue-family only — pink is reserved strictly for CTAs.
 const LETTER_COLORS = [
-  "var(--color-ploy-pink)",
   "var(--color-ploy-cobalt)",
+  "var(--color-ploy-cyan)",
 ];
 
 function DottedWord({ word = "SCALE" }: { word?: string }) {
@@ -268,7 +268,7 @@ function Nav() {
     <header className="relative z-20">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <a href="#top" className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-pink text-sm font-black text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-sm font-black text-white">
             JC
           </span>
           <span className="flex flex-col leading-tight">
@@ -312,11 +312,8 @@ function Hero() {
     >
       <GridFloor className="opacity-25" />
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-14 pt-10 text-center md:pt-16">
-        <div className="relative mx-auto mb-7 max-w-2xl">
-          <RetroSun size={320} />
-          <div className="relative">
-            <DottedWord word="SCALE" />
-          </div>
+        <div className="mx-auto mb-12 max-w-2xl">
+          <DottedWord word="SCALE" />
         </div>
         <p className="mb-6 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-cobalt">
           Fractional CRO &middot; GTM leadership
@@ -362,9 +359,9 @@ function Hero() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_STATS = [
-  { value: "$0 to $150M", label: "ARR scaled across portfolio companies", color: "text-ploy-pink" },
+  { value: "$0 to $150M", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
   { value: "7x", label: "Revenue growth at Valispace in 8 months", color: "text-ploy-cobalt" },
-  { value: "11+ yrs", label: "GTM leadership for early-stage founders", color: "text-ploy-pink" },
+  { value: "11+ yrs", label: "GTM leadership for early-stage founders", color: "text-ploy-cobalt" },
   { value: "2", label: "Companies guided to acquisition", color: "text-ploy-cobalt" },
 ];
 
@@ -398,7 +395,7 @@ function ServicesRow() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-pink">
+        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cobalt">
           What I do
         </p>
         <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
@@ -416,7 +413,7 @@ function ServicesRow() {
           <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
             Done with you
           </span>
-          <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-pink-soft text-ploy-pink">
+          <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-blue-soft text-ploy-cobalt">
             <FileText className="h-5 w-5" />
           </span>
           <h3 className="mt-4 text-xl font-black text-ploy-text-primary">
@@ -481,7 +478,7 @@ const DEFAULT_STEPS = [
   {
     title: "Diagnose",
     body: "We pressure-test your current motion to find where deals stall, who's really buying, and what's costing you wins.",
-    color: "bg-ploy-pink",
+    color: "bg-ploy-cobalt",
   },
   {
     title: "Build the playbook",
@@ -491,7 +488,7 @@ const DEFAULT_STEPS = [
   {
     title: "Scale it with agents and people",
     body: "We operationalize the motion with the right hires and AI agents so growth compounds without adding chaos.",
-    color: "bg-ploy-cyan",
+    color: "bg-ploy-cobalt",
   },
 ];
 
@@ -542,9 +539,9 @@ function ProcessSection() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_RESULTS = [
-  { value: "1 to 42", label: "Enterprise customers at iControl in under 18 months", color: "text-ploy-pink" },
+  { value: "1 to 42", label: "Enterprise customers at iControl in under 18 months", color: "text-ploy-cobalt" },
   { value: "<5 to 80+", label: "Customers at Skore in 12 months", color: "text-ploy-cobalt" },
-  { value: "2x", label: "Close rates at Instaroid in under 90 days", color: "text-ploy-pink" },
+  { value: "2x", label: "Close rates at Instaroid in under 90 days", color: "text-ploy-cobalt" },
   { value: "50%", label: "Faster enterprise sales cycle at Appreciation Engine", color: "text-ploy-cobalt" },
 ];
 
@@ -560,7 +557,7 @@ function ResultsSection() {
     <section id="results" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div>
-          <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-pink">
+          <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cobalt">
             Real outcomes
           </p>
           <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
@@ -588,8 +585,8 @@ function ResultsSection() {
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-pink-soft p-8 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-pink text-white">
+        <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-blue-soft p-8 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-white">
             <Rocket className="h-5 w-5" />
           </span>
           <h3 className="mt-4 text-2xl font-black leading-tight">
@@ -622,7 +619,7 @@ const DEFAULT_TESTIMONIALS = [
     quote:
       "We were stuck at $60K and couldn't crack repeatable sales. Six months later we hit $1.4M ARR and finally understood exactly why deals closed.",
     detail: "Founder, Involvesoft (AI SaaS)",
-    accent: "bg-ploy-pink",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
@@ -640,7 +637,7 @@ const DEFAULT_TESTIMONIALS = [
     quote:
       "Our pipeline was pure guesswork. Within a year we grew from 5 customers to more than 80, predictably.",
     detail: "Founder, Skore (Education SaaS)",
-    accent: "bg-ploy-pink",
+    accent: "bg-ploy-cobalt",
   },
   {
     quote:
@@ -678,7 +675,7 @@ function TestimonialSection() {
               type="button"
               onClick={scrollNext}
               aria-label="Next testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-pink text-white shadow-[3px_3px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-ink)]"
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-white shadow-[3px_3px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-ink)]"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -722,11 +719,10 @@ function FinalCta() {
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div
-        className="relative overflow-hidden rounded-[2rem] border-2 border-ploy-ink bg-ploy-ink px-8 py-16 text-center text-white shadow-[8px_8px_0_0_var(--color-ploy-pink)] md:py-20"
+        className="relative overflow-hidden rounded-[2rem] border-2 border-ploy-ink bg-ploy-ink px-8 py-16 text-center text-white shadow-[8px_8px_0_0_var(--color-ploy-cobalt)] md:py-20"
         style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
       >
         <GridFloor className="opacity-25" />
-        <RetroSun size={260} />
         <div className="relative z-10 mx-auto max-w-2xl">
           <h2 className="font-heading text-3xl font-black leading-tight tracking-tight text-balance text-white md:text-5xl">
             Ready to scale how you sell?
@@ -754,7 +750,7 @@ function Footer() {
     <footer className="border-t-2 border-ploy-ink">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 md:flex-row">
         <div className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-pink text-xs font-black text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-xs font-black text-white">
             JC
           </span>
           <span className="text-sm font-bold">
