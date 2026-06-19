@@ -345,16 +345,15 @@ function Hero() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_STATS = [
-  { value: "$0 to $150M", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
-  { value: "7x", label: "Revenue growth at Valispace in 8 months", color: "text-ploy-cobalt" },
+  { value: "$0 to $150M+", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
   { value: "11+ yrs", label: "GTM leadership for early-stage founders", color: "text-ploy-cobalt" },
-  { value: "2", label: "Companies guided to acquisition", color: "text-ploy-cobalt" },
+  { value: "2", label: "Companies guided to profitable acquisition", color: "text-ploy-cobalt" },
 ];
 
 function StatBand() {
   return (
     <section className="relative z-10 mx-auto mt-2 max-w-6xl px-6 pb-6">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {DEFAULT_STATS.map((s) => (
           <div
             key={s.label}
