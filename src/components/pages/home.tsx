@@ -3,11 +3,9 @@ import {
   ArrowRight,
   TrendingUp,
   Users,
-  Target,
-  Compass,
-  Rocket,
   LineChart,
   CheckCircle2,
+  FileText,
 } from "lucide-react";
 
 /**
@@ -17,14 +15,17 @@ import {
  * @ployComponentType page
  * @ployComponentPattern landing
  * @ployComponentStatus stable
- * @ployComponentDescription Homepage for Juliana Crispo's sales-process consulting & advisory
- * practice for early-stage founders. Playful "bright/bouncy" direction adapted from the Kids
- * Smart Learning lookbook (lb_sgm0motwqq): cream canvas (#FBF6E8), multi-color dotted display
- * lockup, cobalt-blue pill CTAs, primary-palette rounded cards (butter yellow / cobalt / mint),
- * floating geometric shapes, Nunito rounded-sans type. Composes local sections: Nav, Hero,
- * StatBand, ServicesRow, ProcessSection, ResultsSection, TestimonialSection, FinalCta, Footer.
- * All copy lives in DEFAULT_* consts for easy editing. Brand palette tokens: ploy-cobalt,
- * ploy-red, ploy-yellow, ploy-mint, ploy-orange, ploy-cream in globals.css @theme inline.
+ * @ployComponentDescription Homepage for Juliana Crispo, a Fractional CRO doing GTM leadership
+ * and investing for early-stage founders. Playful "bright/bouncy" direction adapted from the
+ * Kids Smart Learning lookbook (lb_sgm0motwqq): cream canvas (#FBF6E8), multi-color dotted
+ * display lockup, cobalt-blue pill CTAs, primary-palette rounded cards (butter yellow / cobalt /
+ * mint), floating geometric shapes, Nunito rounded-sans type. Composes local sections: Nav,
+ * Hero, StatBand, ServicesRow (three offerings: Done-with-you Playbook Creation, Done-for-you
+ * 3-Month Fractional CRO with a hand-drawn line illustration, Done-for-you Recruiting & Exec
+ * Search), ProcessSection (Diagnose / Build the playbook / Scale with agents and people),
+ * ResultsSection, TestimonialSection, FinalCta ($1K paid strategy call), Footer. Copy lives in
+ * DEFAULT_* consts. No em dashes in copy by request. Brand palette tokens: ploy-cobalt, ploy-red,
+ * ploy-yellow, ploy-mint, ploy-mint-deep, ploy-orange, ploy-cream in globals.css @theme inline.
  */
 
 const NAV_LINKS = [
@@ -33,11 +34,8 @@ const NAV_LINKS = [
   { label: "Results", href: "#results" },
 ];
 
-const PROOF_IMAGE =
-  "https://storage.googleapis.com/ployai/1128baac-0f0d-4b3b-aa46-b9e9e0069105/user/b5e4598d-ai-generated-1781843437984.png";
-
 /* ----------------------------------------------------------------------------
- * Dotted display lockup — the signature "wiggly" multi-color dot-matrix wordmark
+ * Dotted display lockup: signature "wiggly" multi-color dot-matrix wordmark
  * -------------------------------------------------------------------------- */
 
 // 5-wide x 7-tall dot matrices. 1 = dot, 0 = empty.
@@ -158,41 +156,34 @@ function FloatingShapes() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      {/* red half circle, left */}
       <motion.div
         {...float(0.2, 8)}
         className="absolute -left-10 top-24 h-40 w-40 rounded-full bg-ploy-red/90"
         style={{ clipPath: "inset(0 0 50% 0)" }}
       />
-      {/* mint capsule */}
       <motion.div
         {...float(0.8, 12)}
         className="absolute left-[14%] top-[42%] h-10 w-24 rounded-full bg-ploy-mint"
       />
-      {/* yellow square */}
       <motion.div
         {...float(1.1, 10)}
         className="absolute right-[16%] top-16 h-16 w-16 rotate-6 rounded-2xl bg-ploy-yellow"
       />
-      {/* cobalt square */}
       <motion.div
         {...float(0.5, 14)}
         className="absolute right-[8%] top-[46%] h-12 w-12 -rotate-6 rounded-xl bg-ploy-cobalt"
       />
-      {/* orange star */}
       <motion.div
         {...float(1.4, 9)}
         className="absolute left-[40%] top-8 text-ploy-orange"
       >
         <StarShape />
       </motion.div>
-      {/* dotted grid, right */}
       <div className="absolute right-[6%] top-32 hidden md:grid grid-cols-5 gap-2 opacity-60">
         {Array.from({ length: 25 }).map((_, i) => (
           <span key={i} className="h-1.5 w-1.5 rounded-full bg-ploy-cobalt/50" />
         ))}
       </div>
-      {/* dotted grid, left lower */}
       <div className="absolute left-[8%] bottom-16 hidden md:grid grid-cols-4 gap-2 opacity-50">
         {Array.from({ length: 16 }).map((_, i) => (
           <span key={i} className="h-1.5 w-1.5 rounded-full bg-ploy-red/40" />
@@ -206,6 +197,47 @@ function StarShape() {
   return (
     <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 0l2.4 7.6L22 8.4l-5.8 4.6 2 7.6L12 16.8 5.8 20.6l2-7.6L2 8.4l7.6-.8z" />
+    </svg>
+  );
+}
+
+/* ----------------------------------------------------------------------------
+ * Hand-drawn line illustration (replaces the photo on the Fractional CRO card)
+ * -------------------------------------------------------------------------- */
+
+function AdvisoryDrawing() {
+  return (
+    <svg
+      width="200"
+      height="150"
+      viewBox="0 0 200 150"
+      fill="none"
+      role="img"
+      aria-label="Hand-drawn growth chart with an upward arrow"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* baseline */}
+      <path d="M28 118 H172" stroke="#1b1a14" strokeWidth="3" />
+      {/* rising bars */}
+      <rect x="40" y="92" width="20" height="26" rx="4" stroke="#e04a30" strokeWidth="3" />
+      <rect x="74" y="74" width="20" height="44" rx="4" stroke="#f5c84a" strokeWidth="3" />
+      <rect x="108" y="54" width="20" height="64" rx="4" stroke="#2f7d57" strokeWidth="3" />
+      {/* dotted upward trajectory */}
+      <path
+        d="M44 104 C 80 96, 110 70, 158 38"
+        stroke="#2f5bd9"
+        strokeWidth="3"
+        strokeDasharray="2 9"
+      />
+      {/* arrow head */}
+      <path d="M150 34 L162 34 L162 46" stroke="#2f5bd9" strokeWidth="3" />
+      {/* sparkles */}
+      <path
+        d="M168 70 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z"
+        fill="#e8842b"
+      />
+      <circle cx="36" cy="40" r="4" fill="#2f5bd9" />
     </svg>
   );
 }
@@ -269,7 +301,7 @@ function Nav() {
               Juliana Crispo
             </span>
             <span className="text-xs font-bold uppercase tracking-[0.14em] text-ploy-text-secondary">
-              Sales Advisory
+              Fractional CRO
             </span>
           </span>
         </a>
@@ -305,7 +337,7 @@ function Hero() {
           <DottedWord word="SCALE" />
         </div>
         <p className="mb-6 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-text-secondary">
-          Sales process consulting &amp; advisory
+          Fractional CRO &middot; GTM leadership &amp; investing
         </p>
         <motion.h1
           initial={{ opacity: 0, y: 18 }}
@@ -313,7 +345,7 @@ function Hero() {
           transition={{ duration: 0.6 }}
           className="font-heading text-4xl font-black leading-[1.05] tracking-tight text-balance sm:text-5xl md:text-6xl"
         >
-          Build a sales engine
+          Build a GTM function
           <br />
           founders actually trust.
         </motion.h1>
@@ -323,9 +355,9 @@ function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mx-auto mt-5 max-w-xl text-lg font-medium text-ploy-text-secondary"
         >
-          I help early-stage tech companies turn scrappy, founder-led selling
-          into a repeatable motion — the kind that 7x&apos;d revenue and took
-          startups from $0 to $150M.
+          I help early-stage tech founders turn founder-led selling into a GTM
+          motion that scales. The kind that 7x&apos;d revenue and took startups
+          from $0 to $150M.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -348,9 +380,9 @@ function Hero() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_STATS = [
-  { value: "$0→$150M", label: "Revenue scaled across portfolio companies" },
+  { value: "$0 to $150M", label: "Revenue scaled across portfolio companies" },
   { value: "7x", label: "Revenue growth at Valispace in 8 months" },
-  { value: "11+ yrs", label: "Advising early-stage founders on GTM" },
+  { value: "11+ yrs", label: "GTM leadership for early-stage founders" },
   { value: "2", label: "Companies guided to acquisition" },
 ];
 
@@ -374,83 +406,71 @@ function StatBand() {
 }
 
 /* ----------------------------------------------------------------------------
- * Services — three-color card row
+ * Services: three offerings
  * -------------------------------------------------------------------------- */
-
-const DEFAULT_SERVICE_ROWS = [
-  { icon: Target, title: "Ideal customer & messaging", note: "Find your real buyer" },
-  { icon: Compass, title: "Repeatable sales process", note: "Stop winging every deal" },
-  { icon: Users, title: "Hiring & coaching your first reps", note: "Build the team right" },
-];
 
 function ServicesRow() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div className="mx-auto mb-12 max-w-2xl text-center">
         <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
-          Everything you need to sell like you&apos;ve done it before.
+          Everything you need to scale like you&apos;ve done it before.
         </h2>
         <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
-          Three ways founders work with me to go from founder-led hustle to a
-          sales motion that compounds.
+          Three ways founders work with me to go from founder led to a scalable
+          motion that compounds.
         </p>
       </div>
 
       <div className="grid gap-5 md:grid-cols-3">
-        {/* Yellow feature card */}
-        <div className="rounded-[1.5rem] bg-ploy-yellow p-7">
-          <h3 className="text-xl font-black text-ploy-text-primary">
-            Sales strategy
+        {/* 1. Done with you: Playbook Creation */}
+        <div className="flex flex-col rounded-[1.5rem] bg-ploy-yellow p-7">
+          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-primary/60">
+            Done with you
+          </span>
+          <span className="mt-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/70 text-ploy-text-primary">
+            <FileText className="h-5 w-5" />
+          </span>
+          <h3 className="mt-4 text-xl font-black text-ploy-text-primary">
+            Playbook Creation
           </h3>
-          <p className="mt-2 text-sm font-semibold text-ploy-text-primary/70">
-            The foundation under every deal.
+          <p className="mt-2 text-sm font-medium text-ploy-text-primary/75">
+            We learn your market and ICP, figure out your GTM process, and turn
+            around a playbook built to scale.
           </p>
-          <ul className="mt-6 space-y-5">
-            {DEFAULT_SERVICE_ROWS.map((row) => (
-              <li key={row.title} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/70 text-ploy-text-primary">
-                  <row.icon className="h-4 w-4" />
-                </span>
-                <span>
-                  <span className="block text-sm font-extrabold leading-tight text-ploy-text-primary">
-                    {row.title}
-                  </span>
-                  <span className="block text-xs font-semibold text-ploy-text-primary/60">
-                    {row.note}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
         </div>
 
-        {/* Center photo card */}
-        <div className="overflow-hidden rounded-[1.5rem] bg-white">
-          <img
-            src={PROOF_IMAGE}
-            alt="A founder and sales advisor mapping out a go-to-market strategy together at a sunlit table"
-            className="h-56 w-full object-cover"
-            loading="lazy"
-          />
+        {/* 2. Done for you: 3-Month Fractional CRO (line drawing) */}
+        <div className="flex flex-col overflow-hidden rounded-[1.5rem] bg-white">
+          <div className="flex h-44 items-center justify-center bg-ploy-cream">
+            <AdvisoryDrawing />
+          </div>
           <div className="p-7">
-            <h3 className="text-xl font-black">Hands-on advisory</h3>
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
+              Done for you
+            </span>
+            <h3 className="mt-3 text-xl font-black">3-Month Fractional CRO</h3>
             <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-              We work side by side — pipeline reviews, call breakdowns, and live
-              deal strategy until the motion sticks with your team.
+              Bring me into your team to build the motion hands on, from
+              pipeline to process to your first reps.
             </p>
           </div>
         </div>
 
-        {/* Cobalt trust card */}
+        {/* 3. Done for you: Recruiting & Executive Search */}
         <div className="flex flex-col justify-between rounded-[1.5rem] bg-ploy-cobalt p-7 text-white">
           <div>
-            <Rocket className="h-8 w-8" />
-            <h3 className="mt-4 text-2xl font-black leading-tight">
-              From first hire to Series&nbsp;B.
+            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-white/70">
+              Done for you
+            </span>
+            <span className="mt-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/15">
+              <Users className="h-5 w-5" />
+            </span>
+            <h3 className="mt-4 text-xl font-black leading-tight">
+              Recruiting &amp; Executive Search
             </h3>
-            <p className="mt-3 text-sm font-medium text-white/80">
-              I&apos;ve built the sales teams and playbooks that carried
-              startups through their hardest growth chapters.
+            <p className="mt-2 text-sm font-medium text-white/80">
+              I build world-class GTM teams and find you your future CRO.
             </p>
           </div>
           <a
@@ -472,15 +492,15 @@ function ServicesRow() {
 const DEFAULT_STEPS = [
   {
     title: "Diagnose",
-    body: "We pressure-test your current motion — where deals stall, who's really buying, and what's costing you wins.",
+    body: "We pressure-test your current motion to find where deals stall, who's really buying, and what's costing you wins.",
   },
   {
     title: "Build the playbook",
-    body: "Messaging, qualification, and a process your team can actually run without you in every call.",
+    body: "Messaging, qualification, and a GTM process your team can run without you in every call.",
   },
   {
-    title: "Coach it in",
-    body: "Live deal strategy and rep coaching until the new motion is muscle memory and the numbers move.",
+    title: "Scale it with agents and people",
+    body: "We operationalize the motion with the right hires and AI agents so growth compounds without adding chaos.",
   },
 ];
 
@@ -498,10 +518,7 @@ function ProcessSection() {
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {DEFAULT_STEPS.map((step, i) => (
-            <div
-              key={step.title}
-              className="rounded-[1.5rem] bg-ploy-cream p-7"
-            >
+            <div key={step.title} className="rounded-[1.5rem] bg-ploy-cream p-7">
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-ploy-cobalt text-lg font-black text-white">
                 {i + 1}
               </span>
@@ -522,9 +539,9 @@ function ProcessSection() {
  * -------------------------------------------------------------------------- */
 
 const DEFAULT_RESULTS = [
-  { value: "1 → 42", label: "Enterprise customers at iControl in <18 months" },
-  { value: "<5 → 80+", label: "Customers at Skore in 12 months" },
-  { value: "2x", label: "Close rates at Instaroid in <90 days" },
+  { value: "1 to 42", label: "Enterprise customers at iControl in under 18 months" },
+  { value: "<5 to 80+", label: "Customers at Skore in 12 months" },
+  { value: "2x", label: "Close rates at Instaroid in under 90 days" },
   { value: "50%", label: "Faster enterprise sales cycle at Appreciation Engine" },
 ];
 
@@ -540,8 +557,8 @@ function ResultsSection() {
             Founders don&apos;t hire me for theory.
           </h2>
           <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
-            Every engagement is measured in pipeline, close rates, and revenue —
-            here&apos;s what that&apos;s looked like across the companies
+            Every engagement is measured in pipeline, close rates, and revenue.
+            Here&apos;s what that&apos;s looked like across the companies
             I&apos;ve worked with.
           </p>
           <div className="mt-8 grid grid-cols-2 gap-4">
@@ -646,10 +663,7 @@ function FinalCta() {
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <div className="relative overflow-hidden rounded-[2rem] bg-ploy-cobalt px-8 py-16 text-center text-white md:py-20">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-        >
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute -left-6 top-8 h-20 w-20 rounded-full bg-white/10" />
           <div className="absolute right-10 top-10 h-12 w-12 rotate-6 rounded-xl bg-ploy-yellow/80" />
           <div className="absolute bottom-8 left-1/3 h-10 w-24 rounded-full bg-white/10" />
@@ -660,15 +674,15 @@ function FinalCta() {
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg font-medium text-white/85">
             Book a 1-hour strategy call for $1,000. We&apos;ll pinpoint where
-            your sales motion is stuck and map the fastest path to repeatable
-            revenue — you&apos;ll leave with a plan whether or not we work
+            your GTM motion is stuck and map the fastest path to repeatable
+            revenue. You&apos;ll leave with a plan whether or not we work
             together.
           </p>
           <a
             href="mailto:hello@julianacrispo.com"
             className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-extrabold text-ploy-cobalt transition-colors hover:bg-white/90"
           >
-            Book a strategy call — $1K <ArrowRight className="h-4 w-4" />
+            Book a strategy call ($1K) <ArrowRight className="h-4 w-4" />
           </a>
         </div>
       </div>
@@ -685,12 +699,12 @@ function Footer() {
             JC
           </span>
           <span className="text-sm font-bold">
-            Juliana Crispo · Sales Advisory
+            Juliana Crispo &middot; Fractional CRO
           </span>
         </div>
         <div className="flex items-center gap-2 text-sm font-semibold text-ploy-text-secondary">
           <TrendingUp className="h-4 w-4 text-ploy-cobalt" />
-          Helping founders sell since 2015.
+          Helping founders scale since 2015.
         </div>
       </div>
     </footer>
