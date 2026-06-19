@@ -611,24 +611,28 @@ function ResultsSection() {
 
 const DEFAULT_TESTIMONIALS = [
   {
-    quote: "Juliana helped us go from $60K to $1.4M ARR in 6 months.",
+    quote:
+      "We were stuck at $60K and couldn't crack repeatable sales. Six months later we hit $1.4M ARR and finally understood exactly why deals closed.",
     detail: "Founder, Involvesoft (AI SaaS)",
   },
   {
-    quote: "Juliana helped us 7x revenue in 8 months.",
+    quote:
+      "She rebuilt our motion from the ground up. Revenue 7x'd in eight months and the team actually owned the process.",
     detail: "Founder, Valispace (Engineering SaaS)",
   },
   {
     quote:
-      "Juliana helped us go from 1 to 42 enterprise customers in 18 months.",
+      "We went from a single enterprise logo to 42 in under 18 months. The playbook she left us still runs the floor.",
     detail: "Founder, iControl App (Construction SaaS)",
   },
   {
-    quote: "Juliana helped us go from 5 to 80+ customers in 12 months.",
+    quote:
+      "Our pipeline was pure guesswork. Within a year we grew from 5 customers to more than 80, predictably.",
     detail: "Founder, Skore (Education SaaS)",
   },
   {
-    quote: "Juliana helped us cut our enterprise sales cycle in half.",
+    quote:
+      "Our enterprise deals used to drag on forever. She cut our sales cycle in half and gave us a process we could forecast against.",
     detail: "Founder, Appreciation Engine (Marketing SaaS)",
   },
 ];
