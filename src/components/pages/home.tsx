@@ -836,6 +836,12 @@ function FinalCta() {
       goal: String(data.get("goal") || ""),
     };
     setStatus("submitting");
+    // Fire-and-forget Slack alert; never blocks or fails the user's submission.
+    void fetch("/api/notify-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
     try {
       await submitForm("strategy-call-request", payload);
       setStatus("done");
