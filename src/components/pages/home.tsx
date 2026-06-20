@@ -502,7 +502,7 @@ function ServicesRow() {
           Everything you need to scale like you&apos;ve done it before.
         </h2>
         <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
-          Three ways founders work with me to go from founder led to a scalable
+          Three ways founders work with me to go from founder-led to a scalable
           motion that compounds.
         </p>
       </div>
@@ -553,7 +553,8 @@ function ServicesRow() {
               Recruiting &amp; Executive Search
             </h3>
             <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-              I build world-class GTM teams and find you your future CRO.
+              I recruit and vet GTM hires who can actually sell your product, and
+            help you land your first CRO.
             </p>
           </div>
           <a
