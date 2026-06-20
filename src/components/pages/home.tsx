@@ -462,7 +462,7 @@ const DEFAULT_STATS = [
   { value: "$0 to $150M+", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
   { value: "15+ yrs", label: "GTM experience across inbound, outbound, organic and paid channels", color: "text-ploy-cobalt" },
   { value: "9", label: "Companies served", color: "text-ploy-cobalt" },
-  { value: "2", label: "Profitable acquisitions", color: "text-ploy-cobalt" },
+  { value: "3", label: "Profitable acquisitions", color: "text-ploy-cobalt" },
 ];
 
 function StatBand() {
