@@ -423,9 +423,9 @@ function Hero() {
           transition={{ duration: 0.6 }}
           className="font-heading text-4xl font-black leading-[1.05] tracking-tight text-balance sm:text-5xl md:text-6xl"
         >
-          Turn founder-led selling into
+          From founder-led sales to
           <br />
-          revenue that scales without you.
+          a $150M ARR motion.
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 18 }}
