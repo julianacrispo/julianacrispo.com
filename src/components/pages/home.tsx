@@ -423,9 +423,9 @@ function Hero() {
           transition={{ duration: 0.6 }}
           className="font-heading text-4xl font-black leading-[1.05] tracking-tight text-balance sm:text-5xl md:text-6xl"
         >
-          Build a GTM function
+          Turn founder-led selling into
           <br />
-          founders actually trust.
+          revenue that scales without you.
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 18 }}
@@ -433,9 +433,10 @@ function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mx-auto mt-5 max-w-xl text-lg font-medium text-ploy-text-secondary"
         >
-          I help early-stage tech founders turn founder-led selling into a GTM
-          motion that scales. The kind that 7x&apos;d revenue and took startups
-          from $0 to $150M ARR.
+          I&apos;m a fractional CRO for early-stage tech founders. I diagnose
+          what&apos;s already working in your founder-led selling, build the
+          playbook around it, and install a repeatable GTM motion. The kind that
+          has taken startups from $0 to $150M ARR.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 18 }}
