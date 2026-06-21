@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
-import { env } from "cloudflare:workers";
 
-// SSR (must stay non-prerendered) — reads a runtime Secret binding.
+// SSR (must stay non-prerendered) — reads a runtime Secret.
 export const prerender = false;
 
 const WEBHOOK_URL = "https://ploy.ai/api/v1/webhook/58pmeaqrkvkw2rhh";
@@ -18,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
       string,
       unknown
     >;
-    const key = (env as Record<string, string | undefined>).LEAD_WEBHOOK_KEY;
+    const key = process.env.LEAD_WEBHOOK_KEY;
     if (!key) {
       return new Response(JSON.stringify({ ok: false, reason: "no-key" }), {
         status: 200,
