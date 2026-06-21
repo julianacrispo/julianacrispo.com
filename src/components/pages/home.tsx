@@ -9,7 +9,9 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { submitForm } from "@/lib/ploy-forms/submit-form";
+// Formspree endpoint that emails strategy-call submissions to jc@julianacrispo.com.
+// The form ID isn't secret; replace the placeholder with the real one from formspree.io.
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbdvrvoe";
 
 /**
  * @ployComponent
@@ -836,14 +838,19 @@ function FinalCta() {
       goal: String(data.get("goal") || ""),
     };
     setStatus("submitting");
-    // Fire-and-forget Slack alert; never blocks or fails the user's submission.
-    void fetch("/api/notify-lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }).catch(() => {});
     try {
-      await submitForm("strategy-call-request", payload);
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          ...payload,
+          _subject: `New strategy call request from ${payload.name || "website"}`,
+        }),
+      });
+      if (!response.ok) throw new Error(`Submission failed (${response.status})`);
       setStatus("done");
       form.reset();
     } catch {
