@@ -31,8 +31,7 @@ const viteCacheDir =
 
 // https://astro.build/config
 export default defineConfig({
-  // Patched at deploy time by Ploy — must remain a string literal. See AGENTS.md "Sitemap".
-  site: "https://example.com",
+  site: "https://julianacrispo.com",
   output: "server",
   trailingSlash: "never",
   // Disable automatic Cloudflare KV session provisioning. Ploy sites don't
