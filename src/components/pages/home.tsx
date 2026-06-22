@@ -1,17 +1,9 @@
-import { useCallback, useState } from "react";
-import { MotionConfig, motion } from "motion/react";
-import useEmblaCarousel from "embla-carousel-react";
-import {
-  ArrowRight,
-  Users,
-  FileText,
-  Rocket,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-// Formspree endpoint that emails strategy-call submissions to jc@julianacrispo.com.
-// The form ID isn't secret; replace the placeholder with the real one from formspree.io.
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbdvrvoe";
+import { useEffect, useRef, useState } from "react";
+
+// Server route that adds the email to Kit (ConvertKit) and triggers the
+// double opt-in welcome email. The API key stays server-side; see
+// src/pages/api/subscribe.ts and the KIT_API_KEY / KIT_FORM_ID env vars.
+const SUBSCRIBE_ENDPOINT = "/api/subscribe";
 
 /**
  * @ployComponent
@@ -20,970 +12,451 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbdvrvoe";
  * @ployComponentType page
  * @ployComponentPattern landing
  * @ployComponentStatus stable
- * @ployComponentDescription Homepage for Juliana Crispo, a Fractional CRO doing GTM leadership
- * for early-stage founders. Coherent 80s synthwave direction (reworked from an earlier
- * scattered 8-color version that read as visual noise). DISCIPLINED PALETTE: cream paper
- * (#FBF6E8) + ink (#1B1A14) neutrals, with hot pink (#FF2D8F) and electric blue (#2F5BD9)
- * as the dominant accents. STRICT RULE: hot pink is reserved ONLY for CTA buttons; every
- * other accent (eyebrows, stats, icons, dotted lockup, step badges) uses electric blue, with
- * cyan (#1FC6D6) as a cool support tint. Signature retro devices: hard offset drop shadows
- * (shadow-[Npx_Npx_0_0_ink]), 2px ink outlines on cards and buttons, a perspective grid floor
- * (no decorative "sun" \u2014 removed per feedback). Section rhythm:
- * cream default with ONE dark ink synthwave band (Process) plus a dark CTA, instead of every
- * section shouting. Composes local sections: Nav, Hero (dotted SCALE lockup + sun + grid),
- * StatBand, ServicesRow (Playbook Creation / 3-Month Fractional CRO / Recruiting & Exec
- * Search), ProcessSection (dark band: Diagnose / Build the playbook / Scale with agents and
- * people), ResultsSection, TestimonialSection (Embla), FinalCta (request-a-strategy-call form),
- * Footer. Copy in DEFAULT_* consts. No em dashes by request. Palette tokens: ploy-pink,
- * ploy-cobalt, ploy-cyan, ploy-ink, ploy-cream + *-soft tints in globals.css @theme inline.
+ * @ployComponentDescription Personal homepage for Juliana Crispo. Editorial,
+ * paper-and-ink resume-as-narrative: fifteen years in sales told across four acts
+ * (the seller, the operator, the founder, what's next) leading to a "get on the list"
+ * waitlist for software she's building for people who sell. DISCIPLINED PALETTE: warm
+ * paper (#F4F3EE) + ink (#181711) neutrals with a single spruce-green accent (#16463A),
+ * mint highlights (#3FBF92 / #7FB7A6) reserved for the dark CTA section. Typography:
+ * Bricolage Grotesque (display), Hanken Grotesk (body), IBM Plex Mono (eyebrows/labels).
+ * Signature devices: mono eyebrows with a leading rule, a 4-up stat band bordered top and
+ * bottom in ink, scroll-reveal fades, and a dark final CTA with a waitlist form (wired to
+ * Formspree). Self-contained inline <style> block; no Tailwind/ploy tokens used here so the
+ * editorial design renders exactly as authored. The GTM/Fractional CRO site lives at /gtm.
  */
 
-const NAV_LINKS = [
-  { label: "What I do", href: "#services" },
-  { label: "How it works", href: "#process" },
-  { label: "Results", href: "#results" },
-];
-
-const INK = "var(--color-ploy-ink)";
-
-const INPUT_CLASS =
-  "w-full rounded-xl border-2 border-ploy-ink bg-white px-4 py-3 text-sm font-semibold text-ploy-ink placeholder:text-ploy-text-secondary/70 focus:outline-none focus:ring-2 focus:ring-ploy-cobalt";
-
-/* ----------------------------------------------------------------------------
- * Dotted display lockup: signature "wiggly" dot-matrix wordmark.
- * Coherent: alternates only pink + electric blue.
- * -------------------------------------------------------------------------- */
-
-// 5-wide x 7-tall dot matrices. 1 = dot, 0 = empty.
-const GLYPHS: Record<string, number[][]> = {
-  S: [
-    [0, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [0, 1, 1, 1, 0],
-    [0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 0],
-  ],
-  C: [
-    [0, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1],
-  ],
-  A: [
-    [0, 1, 1, 1, 0],
-    [1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1],
-  ],
-  L: [
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1],
-  ],
-  E: [
-    [1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 1, 1, 1, 0],
-    [1, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1],
-  ],
-};
-
-// Blue-family only — pink is reserved strictly for CTAs.
-const LETTER_COLORS = [
-  "var(--color-ploy-cobalt)",
-  "var(--color-ploy-cyan)",
-];
-
-function DottedWord({ word = "SCALE" }: { word?: string }) {
-  const letters = word.toUpperCase().split("");
-  return (
-    <div
-      className="flex items-end justify-center gap-[3.5%]"
-      role="img"
-      aria-label={word}
-    >
-      {letters.map((char, li) => {
-        const grid = GLYPHS[char];
-        const color = LETTER_COLORS[li % LETTER_COLORS.length];
-        if (!grid) return null;
-        return (
-          <motion.div
-            key={`${char}-${li}`}
-            className="grid gap-[14%]"
-            style={{ gridTemplateColumns: "repeat(5, 1fr)", width: "18%" }}
-            animate={{ y: [0, -6, 0] }}
-            transition={{
-              duration: 2.6,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: li * 0.18,
-            }}
-          >
-            {grid.flat().map((cell, ci) => (
-              <span
-                key={ci}
-                className="aspect-square rounded-full"
-                style={{
-                  background: cell ? color : "transparent",
-                  boxShadow: cell
-                    ? "none"
-                    : "inset 0 0 0 1px rgba(27,26,20,0.05)",
-                }}
-              />
-            ))}
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Retro decorative motifs: perspective grid floor + gradient sun
- * -------------------------------------------------------------------------- */
-
-function GridFloor({ className = "" }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute inset-x-0 bottom-0 h-56 ${className}`}
-      style={{
-        backgroundImage:
-          "linear-gradient(var(--grid-color) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--grid-color) 1.5px, transparent 1.5px)",
-        backgroundSize: "44px 44px",
-        transform: "perspective(340px) rotateX(62deg)",
-        transformOrigin: "bottom center",
-        maskImage: "linear-gradient(transparent, black 80%)",
-        WebkitMaskImage: "linear-gradient(transparent, black 80%)",
-      }}
-    />
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Hand-drawn growth illustration (on the Fractional CRO card) — on-palette
- * -------------------------------------------------------------------------- */
-
-function AdvisoryDrawing() {
-  return (
-    <svg
-      width="200"
-      height="150"
-      viewBox="0 0 200 150"
-      fill="none"
-      role="img"
-      aria-label="Growth chart trending up"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M28 118 H172" stroke={INK} strokeWidth="3" />
-      <rect x="40" y="92" width="20" height="26" rx="4" stroke="#2f5bd9" strokeWidth="3" />
-      <rect x="74" y="74" width="20" height="44" rx="4" stroke="#1fc6d6" strokeWidth="3" />
-      <rect x="108" y="54" width="20" height="64" rx="4" stroke="#2f5bd9" strokeWidth="3" />
-      <path
-        d="M44 104 C 80 96, 110 70, 158 38"
-        stroke="#2f5bd9"
-        strokeWidth="3"
-        strokeDasharray="2 9"
-      />
-      <path d="M150 34 L162 34 L162 46" stroke="#2f5bd9" strokeWidth="3" />
-      <path d="M168 72 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#2f5bd9" />
-      <circle cx="36" cy="40" r="4" fill="#1fc6d6" />
-    </svg>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Buttons — retro hard-shadow + ink outline
- * -------------------------------------------------------------------------- */
-
-function PrimaryButton({
-  children,
-  href = "#contact",
-  className = "",
-}: {
-  children: React.ReactNode;
-  href?: string;
-  className?: string;
-}) {
-  return (
-    <a
-      href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-ploy-pink px-7 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] ${className}`}
-    >
-      {children}
-    </a>
-  );
-}
-
-function GhostButton({
-  children,
-  href = "#process",
-  className = "",
-}: {
-  children: React.ReactNode;
-  href?: string;
-  className?: string;
-}) {
-  return (
-    <a
-      href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-white px-7 py-3.5 text-base font-extrabold text-ploy-ink shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] ${className}`}
-    >
-      {children}
-    </a>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Nav
- * -------------------------------------------------------------------------- */
-
-function Nav() {
-  return (
-    <header className="relative z-20">
-      <div className="mx-auto flex max-w-6xl items-center justify-end gap-8 px-6 py-5 md:justify-between">
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm font-bold text-ploy-text-secondary transition-colors hover:text-ploy-text-primary"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <a href="#top" className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-sm font-black text-white">
-            JC
-          </span>
-          <span className="flex flex-col leading-tight">
-            <span className="text-base font-black tracking-tight">
-              Juliana Crispo
-            </span>
-            <span className="text-xs font-bold uppercase tracking-[0.14em] text-ploy-text-secondary">
-              Fractional CRO
-            </span>
-          </span>
-        </a>
-      </div>
-    </header>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * 80s money / pipeline / chart motifs (decorative hero framing)
- * Ink outlines + hard offset shadows + blue/cyan fills. Pink stays CTA-only.
- * -------------------------------------------------------------------------- */
-
-function Sparkle({ className = "" }: { className?: string }) {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M12 0l2.4 7.6L22 8.4l-5.8 4.6 2 7.6L12 16.8 5.8 20.6l2-7.6L2 8.4l7.6-.8z" />
-    </svg>
-  );
-}
-
-function BarChartMotif() {
-  return (
-    <svg width="104" height="92" viewBox="0 0 104 92" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="100" height="88" rx="12" fill="var(--color-ploy-cream)" stroke={INK} strokeWidth="3" />
-      <line x1="16" y1="74" x2="88" y2="74" stroke={INK} strokeWidth="2.5" />
-      <rect x="22" y="52" width="13" height="22" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="2.5" />
-      <rect x="45" y="40" width="13" height="34" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="2.5" />
-      <rect x="68" y="26" width="13" height="48" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="2.5" />
-      <path d="M20 54 C 40 48, 56 32, 84 18" stroke={INK} strokeWidth="2.5" strokeDasharray="2 6" />
-      <path d="M75 15 L86 13 L86 24" stroke={INK} strokeWidth="2.5" />
-    </svg>
-  );
-}
-
-function CoinMotif() {
-  return (
-    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-      <circle cx="30" cy="30" r="22" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="3" />
-      <circle cx="30" cy="30" r="16" fill="none" stroke={INK} strokeWidth="2" strokeDasharray="3 4" opacity="0.55" />
-      <text x="30" y="39" textAnchor="middle" fontSize="24" fontWeight="900" fontFamily="Nunito, system-ui, sans-serif" fill={INK}>$</text>
-    </svg>
-  );
-}
-
-function PipelineMotif() {
-  return (
-    <svg width="80" height="90" viewBox="0 0 80 90" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M10 8 H70 L57 27 H23 Z" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="3" />
-      <path d="M24 33 H56 L47 52 H33 Z" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="3" />
-      <path d="M34 58 H46 L42 74 H38 Z" fill="var(--color-ploy-cobalt)" stroke={INK} strokeWidth="3" />
-      <circle cx="40" cy="84" r="4" fill="var(--color-ploy-cyan)" stroke={INK} strokeWidth="2" />
-    </svg>
-  );
-}
-
-function TickerMotif() {
-  return (
-    <svg width="96" height="64" viewBox="0 0 96 64" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="6,54 24,42 38,48 56,26 72,32 88,12" fill="none" stroke="var(--color-ploy-cobalt)" strokeWidth="4" />
-      {[
-        [6, 54],
-        [24, 42],
-        [38, 48],
-        [56, 26],
-        [72, 32],
-      ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="3.4" fill={INK} />
-      ))}
-      <path
-        d="M88 12 m0,-9 l1.9,6 6,0.4 -4.7,3.7 1.7,5.9 -4.9,-3.3 -4.9,3.3 1.7,-5.9 -4.7,-3.7 6,-0.4 z"
-        fill="var(--color-ploy-cyan)"
-        stroke={INK}
-        strokeWidth="1.6"
-      />
-    </svg>
-  );
-}
-
-function HeroMotifs() {
-  const float = (delay: number, dist = 8) => ({
-    initial: { opacity: 0 },
-    animate: { opacity: 1, y: [0, -dist, 0] },
-    transition: {
-      opacity: { duration: 0.6, delay },
-      y: {
-        duration: 4 + delay,
-        repeat: Infinity,
-        ease: "easeInOut" as const,
-        delay,
-      },
-    },
-  });
-  const hardShadow = {
-    filter: "drop-shadow(4px 4px 0 var(--color-ploy-ink))",
-  };
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
-      <motion.div {...float(0.2)} className="absolute left-[4%] top-24" style={hardShadow}>
-        <BarChartMotif />
-      </motion.div>
-      <motion.div {...float(0.7)} className="absolute left-[9%] top-[58%]" style={hardShadow}>
-        <CoinMotif />
-      </motion.div>
-      <motion.div {...float(0.4)} className="absolute right-[5%] top-20" style={hardShadow}>
-        <PipelineMotif />
-      </motion.div>
-      <motion.div {...float(0.95)} className="absolute right-[7%] top-[56%]">
-        <TickerMotif />
-      </motion.div>
-      <motion.div {...float(1.2, 6)} className="absolute left-[20%] top-[14%] text-ploy-cyan">
-        <Sparkle />
-      </motion.div>
-      <motion.div {...float(0.55, 6)} className="absolute right-[22%] top-[44%] text-ploy-cobalt">
-        <Sparkle className="h-4 w-4" />
-      </motion.div>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Hero
- * -------------------------------------------------------------------------- */
-
-function Hero() {
-  return (
-    <section
-      id="top"
-      className="relative overflow-hidden"
-      style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
-    >
-      <GridFloor className="opacity-25" />
-      <HeroMotifs />
-      <div className="relative z-10 mx-auto max-w-4xl px-6 pb-14 pt-10 text-center md:pt-16">
-        <p className="mb-8 text-sm font-extrabold uppercase tracking-[0.18em] text-ploy-cobalt">
-          Fractional CRO &middot; GTM leadership
-        </p>
-        <div className="mx-auto mb-20 max-w-md">
-          <DottedWord word="SCALE" />
-        </div>
-        <motion.h1
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-heading text-4xl font-black leading-[1.05] tracking-tight text-balance sm:text-5xl md:text-6xl"
-        >
-          From founder-led sales to
-          <br />
-          a $150M ARR motion.
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mx-auto mt-5 max-w-xl text-lg font-medium text-ploy-text-secondary"
-        >
-          I&apos;m a fractional CRO for early-stage tech founders. I diagnose
-          what&apos;s already working in your founder-led selling, build the
-          playbook around it, and install a repeatable GTM motion. The kind that
-          has taken startups from $0 to $150M ARR.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
-        >
-          <PrimaryButton href="#contact">
-            Request a strategy call <ArrowRight className="h-4 w-4" />
-          </PrimaryButton>
-          <GhostButton href="#results">See the results</GhostButton>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Stat band — ink-outlined cards, neon numbers alternating pink/blue
- * -------------------------------------------------------------------------- */
-
-const DEFAULT_STATS = [
-  { value: "$0 to $150M+", label: "ARR scaled across portfolio companies", color: "text-ploy-cobalt" },
-  { value: "15+ yrs", label: "GTM experience across inbound, outbound, organic and paid channels", color: "text-ploy-cobalt" },
-  { value: "9", label: "Companies served", color: "text-ploy-cobalt" },
-  { value: "3", label: "Profitable acquisitions", color: "text-ploy-cobalt" },
-];
-
-function StatBand() {
-  return (
-    <section className="relative z-10 mx-auto mt-2 max-w-6xl px-6 pb-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
-        {DEFAULT_STATS.map((s) => (
-          <div
-            key={s.label}
-            className="rounded-[1.25rem] border-2 border-ploy-ink bg-white px-5 py-6 text-center shadow-[4px_4px_0_0_var(--color-ploy-ink)]"
-          >
-            <div className={`text-2xl font-black md:text-3xl ${s.color}`}>
-              {s.value}
-            </div>
-            <p className="mt-2 text-sm font-medium leading-snug text-ploy-text-secondary">
-              {s.label}
-            </p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Services: three offerings — consistent ink-outlined cards, accent in doses
- * -------------------------------------------------------------------------- */
-
-function ServicesRow() {
-  return (
-    <section id="services" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cobalt">
-          What I do
-        </p>
-        <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
-          Everything you need to scale like you&apos;ve done it before.
-        </h2>
-        <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
-          Three ways founders work with me to go from founder-led to a scalable
-          motion that compounds.
-        </p>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-3">
-        {/* 1. Done with you: Playbook Creation */}
-        <div className="flex flex-col rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
-          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
-            Done with you
-          </span>
-          <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-blue-soft text-ploy-cobalt">
-            <FileText className="h-5 w-5" />
-          </span>
-          <h3 className="mt-4 text-xl font-black text-ploy-text-primary">
-            Playbook Creation
-          </h3>
-          <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-            We learn your market and ICP, figure out your GTM process, and turn
-            around a playbook built to scale.
-          </p>
-        </div>
-
-        {/* 2. Done for you: 3-Month Fractional CRO (illustration) */}
-        <div className="flex flex-col rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
-          <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
-            Done for you
-          </span>
-          <div className="mt-4 flex h-28 items-center justify-center rounded-2xl border-2 border-ploy-ink bg-ploy-cyan-soft">
-            <AdvisoryDrawing />
-          </div>
-          <h3 className="mt-4 text-xl font-black">3-Month Fractional CRO</h3>
-          <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-            Bring me into your team to build the motion hands on, from pipeline
-            to process to your first reps.
-          </p>
-        </div>
-
-        {/* 3. Done for you: Recruiting & Executive Search */}
-        <div className="flex flex-col justify-between rounded-[1.5rem] border-2 border-ploy-ink bg-white p-7 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
-          <div>
-            <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-ploy-text-secondary">
-              Done for you
-            </span>
-            <span className="mt-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-blue-soft text-ploy-cobalt">
-              <Users className="h-5 w-5" />
-            </span>
-            <h3 className="mt-4 text-xl font-black leading-tight text-ploy-text-primary">
-              Recruiting &amp; Executive Search
-            </h3>
-            <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-              I recruit and vet GTM hires who can actually sell your product, and
-            help you land your first CRO.
-            </p>
-          </div>
-          <a
-            href="#contact"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-extrabold text-ploy-cobalt"
-          >
-            Let&apos;s build yours <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
-
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Process — the single dark synthwave band (grid floor + neon steps)
- * -------------------------------------------------------------------------- */
-
-const DEFAULT_STEPS = [
-  {
-    title: "Diagnose",
-    body: "We pressure-test your current motion to find where deals stall, who's really buying, and what's costing you wins.",
-    color: "bg-ploy-cobalt",
-  },
-  {
-    title: "Build the playbook",
-    body: "Messaging, qualification, and a GTM process your team can run without you in every call.",
-    color: "bg-ploy-cobalt",
-  },
-  {
-    title: "Scale it",
-    body: "We operationalize the motion with the right hires and AI agents so growth compounds without adding chaos.",
-    color: "bg-ploy-cobalt",
-  },
-  {
-    title: "Iterate and improve",
-    body: "We keep refining the motion as you grow, tightening what works and fixing what stalls so the system keeps compounding.",
-    color: "bg-ploy-cobalt",
-  },
-];
-
-function ProcessSection() {
-  return (
-    <section
-      id="process"
-      className="relative overflow-hidden bg-ploy-ink py-16 text-white md:py-24"
-      style={{ ["--grid-color" as string]: "var(--color-ploy-pink)" }}
-    >
-      <GridFloor className="opacity-20" />
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cyan">
-            How it works
-          </p>
-          <h2 className="font-heading text-3xl font-black tracking-tight text-balance text-white md:text-4xl">
-            A simple path from messy to repeatable.
-          </h2>
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
-          {DEFAULT_STEPS.map((step, i) => (
-            <div
-              key={step.title}
-              className="rounded-[1.5rem] border-2 border-white/15 bg-white/[0.06] p-7 backdrop-blur-sm"
-            >
-              <span
-                className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink text-lg font-black text-white ${step.color}`}
-              >
-                {i + 1}
-              </span>
-              <h3 className="mt-5 text-xl font-black text-white">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm font-medium text-white/70">
-                {step.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Results
- * -------------------------------------------------------------------------- */
-
-const DEFAULT_RESULTS = [
-  { value: "1 to 42", label: "Enterprise customers at iControl in under 18 months", color: "text-ploy-cobalt" },
-  { value: "<5 to 80+", label: "Customers at Skore in 12 months", color: "text-ploy-cobalt" },
-  { value: "2x", label: "Close rates at Instaroid in under 90 days", color: "text-ploy-cobalt" },
-  { value: "50%", label: "Faster enterprise sales cycle at Appreciation Engine", color: "text-ploy-cobalt" },
-];
-
-const RESULTS_LIST = [
-  "Pre-revenue to first repeatable deals",
-  "Founder-led selling to a hired team",
-  "Scrappy outbound to a real pipeline",
-  "One-off wins to a forecastable motion",
-];
-
-function ResultsSection() {
-  return (
-    <section id="results" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div className="grid items-center gap-10 md:grid-cols-2">
-        <div>
-          <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ploy-cobalt">
-            Real outcomes
-          </p>
-          <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
-            Founders don&apos;t hire me for theory.
-          </h2>
-          <p className="mt-4 text-lg font-medium text-ploy-text-secondary">
-            Every engagement is measured in pipeline, close rates, and revenue.
-            Here&apos;s what that&apos;s looked like across the companies
-            I&apos;ve worked with.
-          </p>
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            {DEFAULT_RESULTS.map((r) => (
-              <div
-                key={r.label}
-                className="rounded-2xl border-2 border-ploy-ink bg-white p-5 shadow-[4px_4px_0_0_var(--color-ploy-ink)]"
-              >
-                <div className={`text-2xl font-black ${r.color}`}>
-                  {r.value}
-                </div>
-                <p className="mt-1 text-xs font-semibold leading-snug text-ploy-text-secondary">
-                  {r.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-blue-soft p-8 shadow-[6px_6px_0_0_var(--color-ploy-ink)]">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-white">
-            <Rocket className="h-5 w-5" />
-          </span>
-          <h3 className="mt-4 text-2xl font-black leading-tight">
-            Built for the messy early stage.
-          </h3>
-          <ul className="mt-6 space-y-4">
-            {RESULTS_LIST.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ploy-cobalt text-[11px] font-black text-white">
-                  &#10003;
-                </span>
-                <span className="text-sm font-semibold text-ploy-text-primary">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Testimonial
- * -------------------------------------------------------------------------- */
-
-const DEFAULT_TESTIMONIALS = [
-  {
-    quote:
-      "We were stuck at $60K and couldn't crack repeatable sales. Six months later we hit $1.4M ARR and finally understood exactly why deals closed.",
-    detail: "Founder, Involvesoft (AI SaaS)",
-    accent: "bg-ploy-cobalt",
-  },
-  {
-    quote:
-      "She rebuilt our motion from the ground up. Revenue 7x'd in eight months and the team actually owned the process.",
-    detail: "Founder, Valispace (Engineering SaaS)",
-    accent: "bg-ploy-cobalt",
-  },
-  {
-    quote:
-      "We went from a single enterprise logo to 42 in under 18 months. The playbook she left us still runs the floor.",
-    detail: "Founder, iControl App (Construction SaaS)",
-    accent: "bg-ploy-cobalt",
-  },
-  {
-    quote:
-      "Our pipeline was pure guesswork. Within a year we grew from 5 customers to more than 80, predictably.",
-    detail: "Founder, Skore (Education SaaS)",
-    accent: "bg-ploy-cobalt",
-  },
-  {
-    quote:
-      "Our enterprise deals used to drag on forever. She cut our sales cycle in half and gave us a process we could forecast against.",
-    detail: "Founder, Appreciation Engine (Marketing SaaS)",
-    accent: "bg-ploy-cobalt",
-  },
-];
-
-function TestimonialSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-  });
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  return (
-    <section className="bg-white py-16 md:py-24">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-10 flex items-end justify-between gap-6">
-          <h2 className="font-heading text-3xl font-black tracking-tight text-balance md:text-4xl">
-            What founders say after working together.
-          </h2>
-          <div className="flex shrink-0 gap-3">
-            <button
-              type="button"
-              onClick={scrollPrev}
-              aria-label="Previous testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ploy-ink bg-white text-ploy-ink shadow-[3px_3px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-ink)]"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              onClick={scrollNext}
-              aria-label="Next testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-white shadow-[3px_3px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-ploy-ink)]"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-6 py-2">
-            {DEFAULT_TESTIMONIALS.map((t) => (
-              <figure
-                key={t.detail}
-                className="flex min-w-0 shrink-0 grow-0 basis-full flex-col justify-between rounded-[1.5rem] border-2 border-ploy-ink bg-ploy-cream p-8 shadow-[6px_6px_0_0_var(--color-ploy-ink)] md:basis-[calc(50%-12px)]"
-              >
-                <blockquote className="text-xl font-black leading-snug text-ploy-text-primary">
-                  &ldquo;{t.quote}&rdquo;
-                </blockquote>
-                <figcaption className="mt-6 flex items-center gap-3">
-                  <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 border-ploy-ink text-sm font-black text-white ${t.accent}`}
-                  >
-                    {t.detail.charAt(t.detail.indexOf(",") + 2)}
-                  </span>
-                  <span className="text-sm font-extrabold text-ploy-text-secondary">
-                    {t.detail}
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------------------
- * Final CTA + Footer
- * -------------------------------------------------------------------------- */
-
-function FinalCta() {
-  const [status, setStatus] = useState<
-    "idle" | "submitting" | "done" | "error"
-  >("idle");
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const payload = {
-      name: String(data.get("name") || ""),
-      email: String(data.get("email") || ""),
-      company: String(data.get("company") || ""),
-      goal: String(data.get("goal") || ""),
-    };
-    setStatus("submitting");
-    try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          ...payload,
-          _subject: `New strategy call request from ${payload.name || "website"}`,
-        }),
-      });
-      if (!response.ok) throw new Error(`Submission failed (${response.status})`);
-      setStatus("done");
-      form.reset();
-    } catch {
-      setStatus("error");
-    }
+const STYLES = `
+  .jc{
+    --paper:#F4F3EE;--card:#FAF9F5;--ink:#181711;--muted:#6E6C61;--faint:#9A988C;
+    --line:rgba(24,23,17,0.12);--line-strong:rgba(24,23,17,0.22);
+    --spruce:#16463A;--spruce-press:#0E3027;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Hanken Grotesk",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --maxw:1080px;--textw:720px;
+    background:var(--paper);color:var(--ink);font-family:var(--body);
+    font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   }
+  .jc *{box-sizing:border-box;}
+  .jc a{color:inherit;text-decoration:none;}
+  .jc .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,56px);}
+  .jc .col{max-width:var(--textw);}
+  .jc .arrow{display:inline-block;transition:transform .22s ease;}
+  .jc a:hover .arrow,.jc button:hover .arrow{transform:translateX(4px);}
+  .jc h1,.jc h2,.jc h3{font-family:var(--display);font-weight:600;margin:0;letter-spacing:-.02em;line-height:1.05;}
 
-  return (
-    <section id="contact" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div
-        className="relative overflow-hidden rounded-[2rem] border-2 border-ploy-ink bg-ploy-ink px-6 py-14 text-white shadow-[8px_8px_0_0_var(--color-ploy-cobalt)] md:px-12 md:py-16"
-        style={{ ["--grid-color" as string]: "var(--color-ploy-cobalt)" }}
-      >
-        <GridFloor className="opacity-20" />
-        <div className="relative z-10 grid items-center gap-10 md:grid-cols-2">
-          <div className="text-center md:text-left">
-            <h2 className="font-heading text-3xl font-black leading-tight tracking-tight text-balance text-white md:text-4xl">
-              Ready to scale how you sell?
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-lg font-medium text-white/85 md:mx-0">
-              Tell me where your GTM motion is stuck and what you are trying to
-              hit. If it looks like a fit, I will reach out to set up a strategy
-              call.
-            </p>
-          </div>
+  .jc .eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--spruce);
+    margin:0 0 18px;display:flex;align-items:center;gap:10px;}
+  .jc .eyebrow::before{content:"";width:18px;height:1px;background:var(--spruce);display:inline-block;flex:none;}
 
-          {status === "done" ? (
-            <div className="rounded-[1.5rem] border-2 border-ploy-ink bg-white p-8 text-center shadow-[6px_6px_0_0_var(--color-ploy-pink)]">
-              <h3 className="text-xl font-black text-ploy-ink">
-                Request received.
-              </h3>
-              <p className="mt-2 text-sm font-medium text-ploy-text-secondary">
-                Thanks for reaching out. I will be in touch shortly to find
-                time.
-              </p>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="rounded-[1.5rem] border-2 border-ploy-ink bg-white p-6 shadow-[6px_6px_0_0_var(--color-ploy-pink)] md:p-7"
-            >
-              <div className="grid gap-3">
-                <input
-                  name="name"
-                  required
-                  placeholder="Your name"
-                  className={INPUT_CLASS}
-                />
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Work email"
-                  className={INPUT_CLASS}
-                />
-                <input
-                  name="company"
-                  placeholder="Company"
-                  className={INPUT_CLASS}
-                />
-                <textarea
-                  name="goal"
-                  rows={3}
-                  placeholder="What are you trying to hit?"
-                  className={INPUT_CLASS}
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={status === "submitting"}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-ploy-ink bg-ploy-pink px-8 py-3.5 text-base font-extrabold text-white shadow-[4px_4px_0_0_var(--color-ploy-ink)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_var(--color-ploy-ink)] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {status === "submitting" ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    Request a strategy call <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
-              {status === "error" && (
-                <p className="mt-3 text-center text-sm font-semibold text-ploy-pink">
-                  Something went wrong. Please try again.
-                </p>
-              )}
-            </form>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
+  .jc-header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .jc .bar{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .jc .logo{font-family:var(--display);font-weight:700;font-size:1.06rem;letter-spacing:-.01em;}
+  .jc .navcta{font-family:var(--mono);font-size:.82rem;color:var(--spruce);}
+  .jc .navcta:hover{color:var(--spruce-press);}
 
-function Footer() {
-  return (
-    <footer className="border-t-2 border-ploy-ink">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 md:flex-row">
-        <div className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ploy-ink bg-ploy-cobalt text-xs font-black text-white">
-            JC
-          </span>
-          <span className="text-sm font-bold">
-            Juliana Crispo &middot; Fractional CRO
-          </span>
-        </div>
-        <div className="flex items-center gap-2 text-sm font-semibold text-ploy-text-secondary">
-          Helping founders scale since 2015.
-        </div>
-      </div>
-    </footer>
-  );
-}
+  .jc .hero{padding:clamp(64px,12vw,124px) 0 clamp(40px,6vw,64px);}
+  .jc .hero h1{font-size:clamp(3rem,9vw,6rem);letter-spacing:-.03em;}
+  .jc .hero .sub{font-size:clamp(1.08rem,2.1vw,1.3rem);color:#33322B;max-width:54ch;margin:30px 0 0;}
+  .jc .hero .sub b{font-weight:500;color:var(--ink);}
+  .jc .cta{display:inline-block;font-family:var(--body);font-weight:500;font-size:1rem;
+    padding:14px 24px;border-radius:4px;background:var(--spruce);color:var(--paper);margin-top:38px;
+    transition:background .18s;}
+  .jc .cta:hover{background:var(--spruce-press);}
 
-/* ----------------------------------------------------------------------------
- * Page
- * -------------------------------------------------------------------------- */
+  .jc .band{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);}
+  .jc .band .grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .jc .cell{padding:28px clamp(8px,1.6vw,22px);border-left:1px solid var(--line);}
+  .jc .cell:first-child{border-left:0;}
+  .jc .cell .n{font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.1rem);letter-spacing:-.02em;line-height:1;}
+  .jc .cell .l{font-family:var(--mono);font-size:.71rem;color:var(--muted);margin-top:12px;line-height:1.5;}
+  @media(max-width:720px){.jc .band .grid{grid-template-columns:repeat(2,1fr);}
+    .jc .cell:nth-child(odd){border-left:0;}.jc .cell{border-top:1px solid var(--line);}
+    .jc .cell:nth-child(1),.jc .cell:nth-child(2){border-top:0;}}
+
+  .jc section.mv{padding:clamp(60px,9vw,108px) 0;border-bottom:1px solid var(--line);}
+  .jc .mv h2{font-size:clamp(2rem,5vw,3.2rem);}
+  .jc .mv .lede{font-size:1.16rem;color:var(--ink);margin:22px 0 0;max-width:62ch;}
+  .jc .mv p{color:#33322B;margin:18px 0 0;max-width:62ch;}
+
+  .jc .figs{display:flex;flex-wrap:wrap;gap:clamp(20px,5vw,56px);margin-top:40px;}
+  .jc .fig .n{font-family:var(--display);font-weight:600;font-size:clamp(1.7rem,4vw,2.6rem);letter-spacing:-.02em;line-height:1;}
+  .jc .fig .l{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:10px;max-width:18ch;}
+
+  .jc .logos{font-family:var(--mono);font-size:.76rem;color:var(--faint);margin-top:34px;letter-spacing:.01em;}
+
+  .jc .results{margin-top:40px;border-top:1px solid var(--line);max-width:640px;}
+  .jc .row{display:grid;grid-template-columns:1.1fr 1.4fr auto;gap:16px;align-items:baseline;
+    padding:16px 0;border-bottom:1px solid var(--line);}
+  .jc .row .co{font-family:var(--display);font-weight:600;font-size:1.05rem;}
+  .jc .row .me{font-family:var(--mono);font-size:.92rem;color:var(--spruce);}
+  .jc .row .ti{font-family:var(--mono);font-size:.74rem;color:var(--muted);text-align:right;}
+  @media(max-width:560px){.jc .row{grid-template-columns:1fr;gap:4px;}.jc .row .ti{text-align:left;}}
+
+  .jc .thread{padding:clamp(60px,9vw,104px) 0;border-bottom:1px solid var(--line);}
+  .jc .thread p{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,3.6vw,2.3rem);
+    letter-spacing:-.02em;line-height:1.25;max-width:20ch;margin:0;}
+  .jc .thread .t2{font-family:var(--body);font-weight:400;font-size:1.12rem;color:var(--muted);
+    margin-top:24px;max-width:50ch;letter-spacing:0;line-height:1.7;}
+
+  .jc .next{background:var(--ink);color:var(--paper);}
+  .jc .next .inner{padding:clamp(64px,10vw,120px) 0;}
+  .jc .next .eyebrow{color:#7FB7A6;}.jc .next .eyebrow::before{background:#7FB7A6;}
+  .jc .next h2{color:var(--paper);font-size:clamp(2rem,5vw,3rem);max-width:18ch;}
+  .jc .next p{color:#C9C7BD;margin:22px 0 0;max-width:52ch;}
+  .jc .form{display:flex;gap:12px;margin-top:36px;max-width:460px;flex-wrap:wrap;}
+  .jc .form input{flex:1;min-width:210px;font-family:var(--body);font-size:1rem;padding:14px 16px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:4px;color:var(--paper);}
+  .jc .form input::placeholder{color:#8C8A80;}
+  .jc .form input:focus{outline:2px solid #3FBF92;outline-offset:1px;border-color:transparent;}
+  .jc .form button{font-family:var(--body);font-weight:500;font-size:1rem;padding:14px 22px;border:0;border-radius:4px;
+    background:#3FBF92;color:#0C231C;cursor:pointer;transition:background .18s;}
+  .jc .form button:hover{background:#5FD0A8;}
+  .jc .form button:disabled{opacity:.6;cursor:default;}
+  .jc .form input:disabled{opacity:.6;}
+  .jc .form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;}
+  .jc .err{font-family:var(--mono);font-size:.78rem;color:#F0A8A0;margin-top:14px;}
+  .jc .micro{font-family:var(--mono);font-size:.74rem;color:#8C8A80;margin-top:16px;}
+  .jc .ok{display:flex;align-items:flex-start;gap:12px;margin-top:36px;max-width:460px;
+    background:rgba(63,191,146,.12);border:1px solid rgba(63,191,146,.45);border-radius:8px;
+    padding:18px 20px;font-family:var(--body);font-size:1.06rem;font-weight:500;
+    line-height:1.45;color:#8FE6C5;}
+  .jc .ok::before{content:"\\2713";flex:none;width:24px;height:24px;border-radius:50%;
+    background:#3FBF92;color:#0C231C;display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;line-height:1;margin-top:1px;}
+
+  .jc-footer{padding:46px 0 60px;}
+  .jc .foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;}
+  .jc .foot .social{display:flex;gap:22px;font-family:var(--mono);font-size:.82rem;}
+  .jc .foot .social a{color:var(--muted);}.jc .foot .social a:hover{color:var(--ink);}
+  .jc .foot .cr{font-family:var(--mono);font-size:.74rem;color:var(--faint);}
+
+  .jc .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease;}
+  .jc .reveal.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){.jc .reveal{opacity:1;transform:none;transition:none;}.jc .arrow{transition:none;}}
+`;
 
 export function HomePage() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+    root.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === "submitting") return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const email = String(data.get("email") ?? "").trim();
+    if (!email || email.indexOf("@") < 1) {
+      setStatus("error");
+      setErrorMsg("Enter a valid email address.");
+      return;
+    }
+    setStatus("submitting");
+    setErrorMsg("");
+    try {
+      const res = await fetch(SUBSCRIBE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          email,
+          website: String(data.get("website") ?? ""),
+        }),
+      });
+      const body = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !body.ok) {
+        setStatus("error");
+        setErrorMsg(body.error || "Something went wrong. Try again.");
+        return;
+      }
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg("Network error. Try again.");
+    }
+  };
+
   return (
-    <MotionConfig reducedMotion="user">
-      <div className="min-h-screen bg-ploy-background-primary text-ploy-text-primary">
-        <Nav />
-        <main>
-          <Hero />
-          <StatBand />
-          <ServicesRow />
-          <ProcessSection />
-          <ResultsSection />
-          <TestimonialSection />
-          <FinalCta />
-        </main>
-        <Footer />
-      </div>
-    </MotionConfig>
+    <div className="jc" id="top" ref={rootRef}>
+      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
+
+      <header className="jc-header">
+        <div className="wrap bar">
+          <a href="#top" className="logo">
+            Juliana Crispo
+          </a>
+          <a href="#list" className="navcta">
+            Get on the list
+          </a>
+        </div>
+      </header>
+
+      <main>
+        <section className="hero">
+          <div className="wrap">
+            <p className="eyebrow reveal">Since 2010 · sales, from every angle</p>
+            <h1 className="reveal">
+              One problem.
+              <br />
+              Every seat.
+            </h1>
+            <p className="sub reveal">
+              I&apos;ve worked a single thing from every angle in sales: the{" "}
+              <b>top rep</b>, the <b>sales leader</b>, the <b>fractional CRO</b>,
+              the <b>trainer to 10,000+ sellers</b>, and the <b>founder</b> who
+              built and sold her own products. Now I&apos;m building for the
+              people who sell.
+            </p>
+            <a className="cta reveal" href="#list">
+              Get on the list <span className="arrow">→</span>
+            </a>
+          </div>
+        </section>
+
+        <section className="band">
+          <div className="wrap">
+            <div className="grid">
+              <div className="cell">
+                <div className="n">15 yrs</div>
+                <div className="l">in sales, every seat</div>
+              </div>
+              <div className="cell">
+                <div className="n">#1</div>
+                <div className="l">rep of 800+, at 241% of quota</div>
+              </div>
+              <div className="cell">
+                <div className="n">10,000+</div>
+                <div className="l">sellers trained</div>
+              </div>
+              <div className="cell">
+                <div className="n">120k+</div>
+                <div className="l">audience built solo</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mv">
+          <div className="wrap col">
+            <p className="eyebrow reveal">2010 – 2015 · the seller</p>
+            <h2 className="reveal">Carried the bag.</h2>
+            <p className="lede reveal">
+              I started as a seller and became the best one in the building.
+            </p>
+            <p className="reveal">
+              Number one rep out of an 800-person org at Meltwater, 241% of
+              quota, then built and ran the top-producing team. At Fuze, net-new
+              logos with Groupon, Samsung, and Sony, over quota every quarter. At
+              Ghostery, enterprise deals across financial services. Five years,
+              one conclusion: I could close anything.
+            </p>
+            <div className="figs reveal">
+              <div className="fig">
+                <div className="n">#1</div>
+                <div className="l">rep of 800+ at Meltwater</div>
+              </div>
+              <div className="fig">
+                <div className="n">241%</div>
+                <div className="l">of quota</div>
+              </div>
+              <div className="fig">
+                <div className="n">40%</div>
+                <div className="l">
+                  of new-product revenue, from the team I built
+                </div>
+              </div>
+            </div>
+            <p className="logos reveal">
+              Net-new logos: American Express · Chase · Mastercard · Visa ·
+              Groupon · Samsung · Sony · Staples · Airbnb
+            </p>
+          </div>
+        </section>
+
+        <section className="mv">
+          <div className="wrap col">
+            <p className="eyebrow reveal">2015 – 2021 · the operator</p>
+            <h2 className="reveal">Built the motion.</h2>
+            <p className="lede reveal">
+              Then I stopped carrying my own bag and started building revenue for
+              everyone else.
+            </p>
+            <p className="reveal">
+              Six years as a fractional CRO across AI, engineering, construction,
+              education, and marketing SaaS. I built the playbooks, then hired the
+              teams to run them. And I taught the rest: a sales program that
+              trained 10,000+ sellers, backed by Gong, Outreach, and Guru. I built
+              that curriculum the slow way, by sitting inside real sales calls for
+              years to find what actually closed deals.
+            </p>
+            <div className="results reveal">
+              <div className="row">
+                <span className="co">Involvesoft</span>
+                <span className="me">$60K → $1.4M ARR</span>
+                <span className="ti">6 months</span>
+              </div>
+              <div className="row">
+                <span className="co">iControl</span>
+                <span className="me">1 → 42 enterprise customers</span>
+                <span className="ti">18 months</span>
+              </div>
+              <div className="row">
+                <span className="co">Skore</span>
+                <span className="me">5 → 80+ customers</span>
+                <span className="ti">12 months</span>
+              </div>
+              <div className="row">
+                <span className="co">Valispace</span>
+                <span className="me">7× revenue</span>
+                <span className="ti">8 months</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mv">
+          <div className="wrap col">
+            <p className="eyebrow reveal">2021 – now · the founder</p>
+            <h2 className="reveal">Built from zero.</h2>
+            <p className="lede reveal">
+              Then I left the org chart behind and built something that was
+              entirely my own.
+            </p>
+            <p className="reveal">
+              I built a YouTube audience from zero to 120,000+, earned sponsors
+              like LMNT, Function Health, and Oura, and turned it into a
+              six-figure business: a coaching practice, a cookbook, and an app,
+              teaching 10,000+ women. No employer, no category, no brand handed
+              to me, all built while birthing and raising 2 kids.
+            </p>
+            <div className="figs reveal">
+              <div className="fig">
+                <div className="n">120k+</div>
+                <div className="l">subscribers, from zero</div>
+              </div>
+              <div className="fig">
+                <div className="n">10,000+</div>
+                <div className="l">women taught</div>
+              </div>
+              <div className="fig">
+                <div className="n">6-figure</div>
+                <div className="l">business</div>
+              </div>
+              <div className="fig">
+                <div className="n">2 kids</div>
+                <div className="l">birthed and raised</div>
+              </div>
+            </div>
+            <p className="logos reveal">LMNT · Function Health · Oura</p>
+          </div>
+        </section>
+
+        <section className="thread">
+          <div className="wrap col">
+            <p className="reveal">Rep, leader, CRO, teacher, founder.</p>
+            <p className="t2 reveal">
+              I&apos;ve seen how people sell from every seat in the building, and
+              I&apos;ve sold everything from enterprise software to a cookbook.
+              Almost no one has sat in all those chairs.
+            </p>
+          </div>
+        </section>
+
+        <section className="next" id="list">
+          <div className="wrap col inner">
+            <p className="eyebrow reveal">What&apos;s next</p>
+            <h2 className="reveal">
+              I&apos;m building software for the people who sell.
+            </h2>
+            <p className="reveal">
+              It draws on all of it, and most of all on the years I spent inside
+              the sales call itself. Quiet for now. If you sell, or you back the
+              people who do, get on the list.
+            </p>
+            {status !== "success" ? (
+              <>
+                <form className="form reveal" onSubmit={handleSubmit} noValidate>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="your@email.com"
+                    aria-label="Email address"
+                    autoComplete="email"
+                    disabled={status === "submitting"}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="website"
+                    className="hp"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
+                  <button type="submit" disabled={status === "submitting"}>
+                    {status === "submitting" ? (
+                      "Adding you…"
+                    ) : (
+                      <>
+                        Get on the list <span className="arrow">→</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+                {status === "error" && (
+                  <p className="err" role="alert">
+                    {errorMsg}
+                  </p>
+                )}
+                <p className="micro reveal">
+                  No noise. You&apos;ll hear from me when there&apos;s something
+                  worth showing.
+                </p>
+              </>
+            ) : (
+              <p className="ok">
+                You&apos;re on the list. Check your inbox to confirm.
+              </p>
+            )}
+          </div>
+        </section>
+      </main>
+
+      <footer className="jc-footer">
+        <div className="wrap foot">
+          <div className="social">
+            <a href="https://www.linkedin.com/in/julianacrispo/">LinkedIn</a>
+            <a href="https://youtube.com/@heyitsjuliana">YouTube</a>
+            <a href="https://www.instagram.com/juliana.crispo/">Instagram</a>
+          </div>
+          <div className="cr">© Juliana Crispo</div>
+        </div>
+      </footer>
+    </div>
   );
 }
