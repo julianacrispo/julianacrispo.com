@@ -440,7 +440,7 @@ export function HomePage() {
               </>
             ) : (
               <p className="ok">
-                You&apos;re on the list. Check your inbox to confirm.
+                Check your inbox to confirm your spot on the list.
               </p>
             )}
           </div>
