@@ -1,19 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { HomePage } from "@/components/pages/home";
+import { GtmPage } from "@/components/pages/gtm";
+import { SITE_CONFIG } from "@/site-config";
 
 export const prerender = true;
-
-const description =
-  "Fifteen years in sales, from every seat: top rep, sales leader, fractional CRO, trainer to 10,000+ sellers, and founder. Now building for the people who sell.";
 ---
 
-<Layout title="Juliana Crispo" description={description}>
-  <Fragment slot="head">
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    />
-  </Fragment>
-  <HomePage client:load />
+<Layout title={SITE_CONFIG.name} description={SITE_CONFIG.description}>
+  <GtmPage client:load />
 </Layout>
