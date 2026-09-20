@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { GtmPage } from "@/components/pages/gtm";
+import { SITE_CONFIG } from "@/site-config";
+
+export const prerender = true;
+---
+
+<Layout title={SITE_CONFIG.name} description={SITE_CONFIG.description}>
+  <GtmPage client:load />
+</Layout>
