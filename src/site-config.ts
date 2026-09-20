@@ -7,8 +7,8 @@ interface SiteConfig {
 }
 
 export const SITE_CONFIG: SiteConfig = {
-  name: "Juliana Crispo · Fractional CRO",
+  name: "Juliana Crispo · 5 Minutes of Frankness",
   description:
-    "Fractional CRO and GTM leadership for early-stage tech founders. Turn founder-led selling into a scalable go-to-market motion that compounds.",
+    "Every Friday I breakdown some new bullshit I'm seeing on the internet and give you the real tea in under 5 minutes.",
   sourceSitemapUrl: "",
 };

@@ -22,9 +22,8 @@ const SUBSCRIBE_ENDPOINT = "/api/subscribe";
  * Signature devices: mono eyebrows with a leading rule, a 4-up stat band bordered top and
  * bottom in ink, scroll-reveal fades, and a dark final CTA with a waitlist form (wired to
  * Formspree). Self-contained inline <style> block; no Tailwind/ploy tokens used here so the
- * editorial design renders exactly as authored. This page is served at /building; the
- * GTM/Fractional CRO site lives at /fractional, and the root (/) is the 3-Bullet Thursday
- * newsletter signup.
+ * editorial design renders exactly as authored. This page is served at /building.
+ * The public homepage (/) is the 5 Minutes of Frankness newsletter signup.
  */
 
 const STYLES = `

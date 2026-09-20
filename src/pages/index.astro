@@ -1,14 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { NewsletterPage } from "@/components/pages/newsletter";
+import { SITE_CONFIG } from "@/site-config";
 
 export const prerender = true;
-
-const description =
-  "3-Bullet Thursday: every Thursday, Juliana Crispo sends an exclusive email with the 3 coolest things she's found (or explored) that week.";
 ---
 
-<Layout title="Juliana Crispo · 3-Bullet Thursday" description={description}>
+<Layout
+  title={SITE_CONFIG.name}
+  description={SITE_CONFIG.description}
+  image="/five-minutes.jpg"
+  imageAlt="Juliana Crispo"
+>
   <Fragment slot="head">
     <link
       rel="stylesheet"
