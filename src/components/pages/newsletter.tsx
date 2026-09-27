@@ -7,12 +7,12 @@ const SUBSCRIBE_ENDPOINT = "/api/subscribe";
 /**
  * @ployComponent
  * @ployComponentId NewsletterPage
- * @ployComponentName 5 Minutes of Frankness Signup
+ * @ployComponentName 3 Minute Friday Signup
  * @ployComponentType page
  * @ployComponentPattern landing
  * @ployComponentStatus stable
  * @ployComponentDescription Root homepage for julianacrispo.com. A chill two-column
- * newsletter capture for "5 Minutes of Frankness": photo on the left, copy + Kit subscribe
+ * newsletter capture for "3 Minute Friday": photo on the left, copy + Kit subscribe
  * form on the right. Wired to /api/subscribe with double opt-in.
  */
 
@@ -83,13 +83,6 @@ const STYLES = `
   .n3 .ok::before{content:"\\2713";flex:none;width:24px;height:24px;border-radius:50%;
     background:var(--spruce);color:var(--paper);display:flex;align-items:center;justify-content:center;
     font-size:.85rem;font-weight:700;line-height:1;margin-top:1px;}
-
-  .n3 .foot{padding:28px 0 36px;}
-  .n3 .foot .row{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;}
-  .n3 .foot .social{display:flex;gap:22px;font-family:var(--mono);font-size:.82rem;}
-  .n3 .foot .social a{color:var(--muted);}
-  .n3 .foot .social a:hover{color:var(--ink);}
-  .n3 .foot .cr{font-family:var(--mono);font-size:.74rem;color:var(--faint);}
 `;
 
 export function NewsletterPage() {
@@ -172,12 +165,12 @@ export function NewsletterPage() {
                   ))}
                 </div>
               </div>
-              <p className="loved-copy">Loved by 10,000+ amazing humans</p>
+              <p className="loved-copy">Loved by 1,200+ amazing ladies</p>
             </div>
-            <h1>5 Minutes of Frankness</h1>
+            <h1>3 Minute Friday</h1>
             <p className="sub">
-              Every Friday I breakdown some new bullshit I&apos;m seeing on the
-              internet and give you the real tea in under 5 minutes.
+              Every Friday I breakdown 3 things in under 3 minutes that I&apos;m
+              loving/reading/doing this week and why you&apos;ll love them too.
             </p>
 
             {status !== "success" ? (
@@ -226,17 +219,6 @@ export function NewsletterPage() {
           </div>
         </div>
       </main>
-
-      <footer className="foot">
-        <div className="wrap row">
-          <div className="social">
-            <a href="https://www.linkedin.com/in/julianacrispo/">LinkedIn</a>
-            <a href="https://youtube.com/@heyitsjuliana">YouTube</a>
-            <a href="https://www.instagram.com/juliana.crispo/">Instagram</a>
-          </div>
-          <div className="cr">© Juliana Crispo</div>
-        </div>
-      </footer>
     </div>
   );
 }

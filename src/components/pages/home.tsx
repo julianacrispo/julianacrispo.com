@@ -23,7 +23,7 @@ const SUBSCRIBE_ENDPOINT = "/api/subscribe";
  * bottom in ink, scroll-reveal fades, and a dark final CTA with a waitlist form (wired to
  * Formspree). Self-contained inline <style> block; no Tailwind/ploy tokens used here so the
  * editorial design renders exactly as authored. This page is served at /building.
- * The public homepage (/) is the 5 Minutes of Frankness newsletter signup.
+ * The public homepage (/) is the 3 Minute Friday newsletter signup.
  */
 
 const STYLES = `
