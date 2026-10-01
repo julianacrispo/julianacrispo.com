@@ -311,7 +311,7 @@ export function NewsletterPage() {
               </div>
               <p className="loved-copy">Loved by 1,200+ amazing ladies</p>
             </div>
-            <h1>3 Minute Friday</h1>
+            <h1>3 Minute Friday Newsletter</h1>
             <p className="sub">
               Every Friday I breakdown 3 things in under 3 minutes that I&apos;m
               loving/reading/doing this week and why you&apos;ll love them too.
