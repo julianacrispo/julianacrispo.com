@@ -58,7 +58,7 @@ const STYLES = `
   .n3 .portrait{position:relative;width:100%;max-width:min(100%,calc(78vh * 3 / 4));aspect-ratio:3/4;
     cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
     outline:none;border-radius:16px;}
-  .n3 .portrait:focus-visible{outline:2px solid var(--spruce);outline-offset:6px;}
+  .n3 .portrait:focus-visible{outline:2px solid var(--ink);outline-offset:6px;}
   .n3 .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;
     mix-blend-mode:multiply;opacity:0;pointer-events:none;image-rendering:auto;}
   .n3 .portrait img.on{opacity:1;}
@@ -82,15 +82,15 @@ const STYLES = `
   .n3 .stars svg{width:18px;height:18px;display:block;}
   .n3 .loved-copy{font-size:.86rem;color:var(--muted);margin:0;}
 
-  .n3 h1{font-family:"Montserrat",var(--display);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin:0;
-    font-size:clamp(2.4rem,6vw,4.1rem);}
+  .n3 h1{font-family:"Montserrat",var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1.02;margin:0;
+    font-size:clamp(2.3rem,5.8vw,4rem);}
   .n3 .sub{font-size:clamp(1.08rem,2vw,1.28rem);color:#33322B;margin:22px 0 0;max-width:36ch;line-height:1.55;}
 
   .n3 .form{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:32px;max-width:380px;}
   .n3 .form input[type="email"]{width:100%;font-family:var(--body);font-size:1rem;padding:15px 16px;
     background:#FFFFFF;border:1px solid var(--line);border-radius:10px;color:var(--ink);}
   .n3 .form input::placeholder{color:var(--faint);}
-  .n3 .form input:focus{outline:2px solid var(--spruce);outline-offset:1px;border-color:transparent;}
+  .n3 .form input:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:transparent;}
   .n3 .form button{font-family:"Montserrat",var(--body);font-weight:800;font-size:1rem;letter-spacing:.01em;
     padding:15px 22px;border:0;border-radius:10px;
     background:var(--pink);color:var(--ink);cursor:pointer;transition:filter .18s;}
@@ -102,10 +102,10 @@ const STYLES = `
   .n3 .err{font-family:var(--mono);font-size:.78rem;color:#A6402F;margin-top:14px;}
   .n3 .micro{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:16px;}
   .n3 .ok{display:flex;align-items:flex-start;gap:12px;margin-top:32px;max-width:420px;
-    background:rgba(22,70,58,.08);border:1px solid rgba(22,70,58,.3);border-radius:12px;
-    padding:18px 20px;font-family:var(--body);font-size:1.05rem;font-weight:500;line-height:1.45;color:var(--spruce);}
+    background:var(--pink);border:1px solid var(--pink);border-radius:12px;
+    padding:18px 20px;font-family:"Montserrat",var(--body);font-size:1.05rem;font-weight:700;line-height:1.45;color:var(--ink);}
   .n3 .ok::before{content:"\\2713";flex:none;width:24px;height:24px;border-radius:50%;
-    background:var(--spruce);color:var(--paper);display:flex;align-items:center;justify-content:center;
+    background:var(--ink);color:var(--pink);display:flex;align-items:center;justify-content:center;
     font-size:.85rem;font-weight:700;line-height:1;margin-top:1px;}
 `;
 
@@ -313,7 +313,7 @@ export function NewsletterPage() {
               </div>
               <p className="loved-copy">Loved by 1,200+ amazing ladies</p>
             </div>
-            <h1>3 Things Friday Newsletter</h1>
+            <h1>3 Things You'll Love</h1>
             <p className="sub">
               Every Friday I breakdown 3 things in under 3 minutes that I&apos;m
               loving/reading/doing this week and why you&apos;ll love them too.
@@ -355,7 +355,7 @@ export function NewsletterPage() {
                     {errorMsg}
                   </p>
                 )}
-                <p className="micro">No noise. Unsubscribe anytime.</p>
+                <p className="micro">No Spam. No BS. Unsubscribe anytime.</p>
               </>
             ) : (
               <p className="ok">
