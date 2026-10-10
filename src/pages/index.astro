@@ -13,9 +13,16 @@ export const prerender = true;
   imageAlt="Juliana Crispo"
 >
   <Fragment slot="head">
+    <style is:global>
+      /* The shared theme's body background is the old cream; this page is pure white. */
+      html,
+      body {
+        background: #ffffff;
+      }
+    </style>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     />
   </Fragment>
   <NewsletterPage client:load />

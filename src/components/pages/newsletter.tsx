@@ -22,21 +22,22 @@ const SETTLE_MS = 70;
 /**
  * @ployComponent
  * @ployComponentId NewsletterPage
- * @ployComponentName 3 Minute Friday Signup
+ * @ployComponentName 3 Things Friday Signup
  * @ployComponentType page
  * @ployComponentPattern landing
  * @ployComponentStatus stable
  * @ployComponentDescription Root homepage for julianacrispo.com. A chill two-column
- * newsletter capture for "3 Minute Friday": interactive bitmap portrait on the left
+ * newsletter capture for "3 Things Friday": interactive bitmap portrait on the left
  * (follows the cursor, winks on click), copy + Kit subscribe form on the right.
  * Wired to /api/subscribe with double opt-in.
  */
 
 const STYLES = `
   .n3{
-    --paper:#F4F3EE;--ink:#181711;--muted:#6E6C61;--faint:#9A988C;
+    --paper:#FFFFFF;--ink:#181711;--muted:#6E6C61;--faint:#9A988C;
     --line:rgba(24,23,17,0.12);
     --spruce:#16463A;--spruce-press:#0E3027;
+    --pink:#FFCEFF;
     --display:"Bricolage Grotesque",system-ui,sans-serif;
     --body:"Hanken Grotesk",system-ui,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,monospace;
@@ -81,18 +82,19 @@ const STYLES = `
   .n3 .stars svg{width:18px;height:18px;display:block;}
   .n3 .loved-copy{font-size:.86rem;color:var(--muted);margin:0;}
 
-  .n3 h1{font-family:var(--display);font-weight:600;letter-spacing:-.03em;line-height:1.02;margin:0;
+  .n3 h1{font-family:"Montserrat",var(--display);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin:0;
     font-size:clamp(2.4rem,6vw,4.1rem);}
   .n3 .sub{font-size:clamp(1.08rem,2vw,1.28rem);color:#33322B;margin:22px 0 0;max-width:36ch;line-height:1.55;}
 
   .n3 .form{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:32px;max-width:380px;}
   .n3 .form input[type="email"]{width:100%;font-family:var(--body);font-size:1rem;padding:15px 16px;
-    background:#FAF9F5;border:1px solid var(--line);border-radius:10px;color:var(--ink);}
+    background:#FFFFFF;border:1px solid var(--line);border-radius:10px;color:var(--ink);}
   .n3 .form input::placeholder{color:var(--faint);}
   .n3 .form input:focus{outline:2px solid var(--spruce);outline-offset:1px;border-color:transparent;}
-  .n3 .form button{font-family:var(--body);font-weight:500;font-size:1rem;padding:15px 22px;border:0;border-radius:10px;
-    background:var(--ink);color:var(--paper);cursor:pointer;transition:opacity .18s;}
-  .n3 .form button:hover{background:var(--ink);opacity:.86;}
+  .n3 .form button{font-family:"Montserrat",var(--body);font-weight:800;font-size:1rem;letter-spacing:.01em;
+    padding:15px 22px;border:0;border-radius:10px;
+    background:var(--pink);color:var(--ink);cursor:pointer;transition:filter .18s;}
+  .n3 .form button:hover{filter:brightness(.95);}
   .n3 .form button:disabled{opacity:.6;cursor:default;}
   .n3 .form input:disabled{opacity:.6;}
   .n3 .form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;}
@@ -311,7 +313,7 @@ export function NewsletterPage() {
               </div>
               <p className="loved-copy">Loved by 1,200+ amazing ladies</p>
             </div>
-            <h1>3 Minute Friday Newsletter</h1>
+            <h1>3 Things Friday Newsletter</h1>
             <p className="sub">
               Every Friday I breakdown 3 things in under 3 minutes that I&apos;m
               loving/reading/doing this week and why you&apos;ll love them too.
