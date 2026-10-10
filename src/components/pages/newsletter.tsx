@@ -315,8 +315,9 @@ export function NewsletterPage() {
             </div>
             <h1>3 Things You'll Love</h1>
             <p className="sub">
-              Every Friday I breakdown 3 things in under 3 minutes that I&apos;m
-              loving/reading/doing this week and why you&apos;ll love them too.
+              Every Friday, I break down 3 things I&apos;m loving, reading, or
+              doing this week, and why you might love them too. All in a
+              3-minute read.
             </p>
 
             {status !== "success" ? (

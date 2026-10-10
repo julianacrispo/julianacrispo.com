@@ -9,6 +9,6 @@ interface SiteConfig {
 export const SITE_CONFIG: SiteConfig = {
   name: "Juliana Crispo · 3 Things Friday",
   description:
-    "Every Friday I breakdown 3 things in under 3 minutes that I'm loving/reading/doing this week and why you'll love them too.",
+    "Every Friday, I break down 3 things I'm loving, reading, or doing this week, and why you might love them too. All in a 3-minute read.",
   sourceSitemapUrl: "",
 };
